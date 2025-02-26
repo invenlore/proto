@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package invenlore.proto.user.v1;
+
+option go_package = "github.com/invenlore/proto/user/v1";
+
+service UserService {
+	rpc GetUser(UserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+	string id = 1;
+}
+
+message UserResponse {
+	string id = 1;
+	string email = 2;
+}
