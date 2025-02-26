@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package invenlore.proto.user;
 
-option go_package = "github.com/invenlore/proto";
+option go_package = "github.com/invenlore/proto/user";
 
 service UserService {
 	rpc GetUser(UserRequest) returns (UserResponse);
