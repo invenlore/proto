@@ -12,4 +12,4 @@ make generate
 make generate/user
 ```
 
-All files will generated at ./[name]/gen/go/[name]
+All files will generated at ./[name]/gen/go/[name]/
