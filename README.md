@@ -10,6 +10,9 @@ make generate
 
 # Generate specific proto
 make generate/user
+
+# Publish new version
+make publish v=1.1.2
 ```
 
-All files will generated at ./[name]/gen/go/[name]/
+All files will generated at ./proto/[name]

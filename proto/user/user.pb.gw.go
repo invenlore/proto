@@ -43,6 +43,9 @@ func request_UserService_AddUser_0(ctx context.Context, marshaler runtime.Marsha
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.AddUser(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -65,6 +68,9 @@ func request_UserService_GetUser_0(ctx context.Context, marshaler runtime.Marsha
 		metadata runtime.ServerMetadata
 		err      error
 	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	val, ok := pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
@@ -100,6 +106,9 @@ func request_UserService_ListUsers_0(ctx context.Context, marshaler runtime.Mars
 		protoReq ListUsersRequest
 		metadata runtime.ServerMetadata
 	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	stream, err := client.ListUsers(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
@@ -267,7 +276,8 @@ type response_UserService_AddUser_0 struct {
 }
 
 func (m response_UserService_AddUser_0) XXX_ResponseBody() interface{} {
-	return m.User
+	response := m.AddUserResponse
+	return response.User
 }
 
 type response_UserService_GetUser_0 struct {
@@ -275,7 +285,8 @@ type response_UserService_GetUser_0 struct {
 }
 
 func (m response_UserService_GetUser_0) XXX_ResponseBody() interface{} {
-	return m.User
+	response := m.GetUserResponse
+	return response.User
 }
 
 type response_UserService_ListUsers_0 struct {
@@ -283,7 +294,8 @@ type response_UserService_ListUsers_0 struct {
 }
 
 func (m response_UserService_ListUsers_0) XXX_ResponseBody() interface{} {
-	return m.User
+	response := m.ListUsersResponse
+	return response.User
 }
 
 var (

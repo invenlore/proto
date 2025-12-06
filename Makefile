@@ -14,10 +14,10 @@ generate/user/grpc-gateway:
     	proto/user/user.proto
 
 generate/user:
-	generate/user/grpc
-	generate/user/grpc-gateway
+	make generate/user/grpc
+	make generate/user/grpc-gateway
 
 generate:
-	generate/user
+	make generate/user
 
-.PHONY: generate
+.PHONY: make generate
