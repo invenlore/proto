@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/invenlore/proto/pkg/user";
+
+message User {
+	string id = 1;
+	string email = 2;
+}
+
+message AddUserRequest {}
+message AddUserResponse {
+	User user = 1;
+}
+
+message GetUserRequest {
+	string id = 1;
+}
+message GetUserResponse {
+	User user = 1;
+}
+
+message DeleteUserRequest {
+	string id = 1;
+}
+message DeleteUserResponse {}
+
+message ListUsersRequest {}
+message ListUsersResponse {
+	User user = 1;
+}

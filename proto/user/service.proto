@@ -2,10 +2,11 @@ syntax = "proto3";
 
 package user;
 
-import "proto/google/api/annotations.proto";
-import "proto/protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "user/messages.proto";
 
-option go_package = "github.com/invenlore/proto/proto/user";
+option go_package = "github.com/invenlore/proto/pkg/user;user";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: { version: "1.0" };
@@ -15,33 +16,6 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	}
 	schemes: HTTPS;
 };
-
-message User {
-	string id = 1;
-	string email = 2;
-}
-
-message AddUserRequest {}
-message AddUserResponse {
-	User user = 1;
-}
-
-message GetUserRequest {
-	string id = 1;
-}
-message GetUserResponse {
-	User user = 1;
-}
-
-message DeleteUserRequest {
-	string id = 1;
-}
-message DeleteUserResponse {}
-
-message ListUsersRequest {}
-message ListUsersResponse {
-	User user = 1;
-}
 
 service UserService {
 	rpc AddUser(AddUserRequest) returns (AddUserResponse) {
