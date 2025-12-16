@@ -11,6 +11,7 @@ generate:
 	make generate/user
 
 generate/user:
+	rm -rf $(PROTO_PKG_PATH)/user/*
 	protoc \
 		--proto_path $(PROTO_PATH) \
 		--proto_path $(PROTO_VENDOR_PATH) \
@@ -21,6 +22,16 @@ generate/user:
 		--grpc-gateway_out $(PROTO_PKG_PATH) \
     	--grpc-gateway_opt paths=source_relative \
     	--grpc-gateway_opt generate_unbound_methods=true \
+    	user/messages.proto user/service.proto
+
+swagger:
+	rm -f $(PROTO_PKG_PATH)/api.swagger.json
+	protoc \
+		--proto_path $(PROTO_PATH) \
+		--proto_path $(PROTO_VENDOR_PATH) \
+		--openapiv2_out $(PROTO_PKG_PATH) \
+		--openapiv2_opt allow_merge=true \
+		--openapiv2_opt merge_file_name=api \
     	user/messages.proto user/service.proto
 
 publish:

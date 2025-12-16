@@ -21,6 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// User domain model
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -73,6 +74,7 @@ func (x *User) GetEmail() string {
 	return ""
 }
 
+// Add User request
 type AddUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -109,6 +111,7 @@ func (*AddUserRequest) Descriptor() ([]byte, []int) {
 	return file_user_messages_proto_rawDescGZIP(), []int{1}
 }
 
+// Add User response
 type AddUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
@@ -153,6 +156,7 @@ func (x *AddUserResponse) GetUser() *User {
 	return nil
 }
 
+// Get User request
 type GetUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -197,6 +201,7 @@ func (x *GetUserRequest) GetId() string {
 	return ""
 }
 
+// Get User response
 type GetUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
@@ -241,6 +246,7 @@ func (x *GetUserResponse) GetUser() *User {
 	return nil
 }
 
+// Delete User request
 type DeleteUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -285,6 +291,7 @@ func (x *DeleteUserRequest) GetId() string {
 	return ""
 }
 
+// Delete User response
 type DeleteUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -321,6 +328,7 @@ func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
 	return file_user_messages_proto_rawDescGZIP(), []int{6}
 }
 
+// List Users request
 type ListUsersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -357,6 +365,7 @@ func (*ListUsersRequest) Descriptor() ([]byte, []int) {
 	return file_user_messages_proto_rawDescGZIP(), []int{7}
 }
 
+// List Users respose
 type ListUsersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`

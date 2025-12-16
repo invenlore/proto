@@ -26,37 +26,41 @@ var File_user_service_proto protoreflect.FileDescriptor
 
 const file_user_service_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/service.proto\x12\x04user\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x13user/messages.proto2\x8e\x03\n" +
-	"\vUserService\x12x\n" +
-	"\aAddUser\x12\x14.user.AddUserRequest\x1a\x15.user.AddUserResponse\"@\x92A\x1f\n" +
-	"\x05Users\x12\n" +
-	"Add a user\x1a\n" +
-	"Add a user\x82\xd3\xe4\x93\x02\x18:\x01*b\x04user\"\r/api/v1/users\x12\x80\x01\n" +
-	"\aGetUser\x12\x14.user.GetUserRequest\x1a\x15.user.GetUserResponse\"H\x92A%\n" +
-	"\x05Users\x12\n" +
-	"Get a user\x1a\x10Get a user by id\x82\xd3\xe4\x93\x02\x1ab\x04user\x12\x12/api/v1/users/{id}\x12\x81\x01\n" +
+	"\x12user/service.proto\x12\x04user\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x13user/messages.proto2\x8d\x04\n" +
+	"\vUserService\x12t\n" +
+	"\aAddUser\x12\x14.user.AddUserRequest\x1a\x15.user.AddUserResponse\"<\x92A\x1b\n" +
+	"\x05Users\x12\bAdd user\x1a\bAdd user\x82\xd3\xe4\x93\x02\x18:\x01*b\x04user\"\r/api/v1/users\x12|\n" +
+	"\aGetUser\x12\x14.user.GetUserRequest\x1a\x15.user.GetUserResponse\"D\x92A!\n" +
+	"\x05Users\x12\bGet user\x1a\x0eGet user by ID\x82\xd3\xe4\x93\x02\x1ab\x04user\x12\x12/api/v1/users/{id}\x12\x85\x01\n" +
+	"\n" +
+	"DeleteUser\x12\x17.user.DeleteUserRequest\x1a\x18.user.DeleteUserResponse\"D\x92A'\n" +
+	"\x05Users\x12\vDelete user\x1a\x11Delete user by ID\x82\xd3\xe4\x93\x02\x14*\x12/api/v1/users/{id}\x12\x81\x01\n" +
 	"\tListUsers\x12\x16.user.ListUsersRequest\x1a\x17.user.ListUsersResponse\"A\x92A#\n" +
 	"\x05Users\x12\n" +
 	"List users\x1a\x0eList all users\x82\xd3\xe4\x93\x02\x15b\x04user\x12\r/api/v1/users0\x01B\x86\x01\x92AY\x12\x052\x031.0*\x01\x02rM\n" +
 	"'gRPC-gateway invenlore proto repository\x12\"https://github.com/invenlore/protoZ(github.com/invenlore/proto/pkg/user;userb\x06proto3"
 
 var file_user_service_proto_goTypes = []any{
-	(*AddUserRequest)(nil),    // 0: user.AddUserRequest
-	(*GetUserRequest)(nil),    // 1: user.GetUserRequest
-	(*ListUsersRequest)(nil),  // 2: user.ListUsersRequest
-	(*AddUserResponse)(nil),   // 3: user.AddUserResponse
-	(*GetUserResponse)(nil),   // 4: user.GetUserResponse
-	(*ListUsersResponse)(nil), // 5: user.ListUsersResponse
+	(*AddUserRequest)(nil),     // 0: user.AddUserRequest
+	(*GetUserRequest)(nil),     // 1: user.GetUserRequest
+	(*DeleteUserRequest)(nil),  // 2: user.DeleteUserRequest
+	(*ListUsersRequest)(nil),   // 3: user.ListUsersRequest
+	(*AddUserResponse)(nil),    // 4: user.AddUserResponse
+	(*GetUserResponse)(nil),    // 5: user.GetUserResponse
+	(*DeleteUserResponse)(nil), // 6: user.DeleteUserResponse
+	(*ListUsersResponse)(nil),  // 7: user.ListUsersResponse
 }
 var file_user_service_proto_depIdxs = []int32{
 	0, // 0: user.UserService.AddUser:input_type -> user.AddUserRequest
 	1, // 1: user.UserService.GetUser:input_type -> user.GetUserRequest
-	2, // 2: user.UserService.ListUsers:input_type -> user.ListUsersRequest
-	3, // 3: user.UserService.AddUser:output_type -> user.AddUserResponse
-	4, // 4: user.UserService.GetUser:output_type -> user.GetUserResponse
-	5, // 5: user.UserService.ListUsers:output_type -> user.ListUsersResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	2, // 2: user.UserService.DeleteUser:input_type -> user.DeleteUserRequest
+	3, // 3: user.UserService.ListUsers:input_type -> user.ListUsersRequest
+	4, // 4: user.UserService.AddUser:output_type -> user.AddUserResponse
+	5, // 5: user.UserService.GetUser:output_type -> user.GetUserResponse
+	6, // 6: user.UserService.DeleteUser:output_type -> user.DeleteUserResponse
+	7, // 7: user.UserService.ListUsers:output_type -> user.ListUsersResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

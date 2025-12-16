@@ -19,17 +19,25 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_AddUser_FullMethodName   = "/user.UserService/AddUser"
-	UserService_GetUser_FullMethodName   = "/user.UserService/GetUser"
-	UserService_ListUsers_FullMethodName = "/user.UserService/ListUsers"
+	UserService_AddUser_FullMethodName    = "/user.UserService/AddUser"
+	UserService_GetUser_FullMethodName    = "/user.UserService/GetUser"
+	UserService_DeleteUser_FullMethodName = "/user.UserService/DeleteUser"
+	UserService_ListUsers_FullMethodName  = "/user.UserService/ListUsers"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// UserService service
 type UserServiceClient interface {
+	// Add user
 	AddUser(ctx context.Context, in *AddUserRequest, opts ...grpc.CallOption) (*AddUserResponse, error)
+	// Get user by ID
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
+	// Delete user by ID
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
+	// List all users
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ListUsersResponse], error)
 }
 
@@ -61,6 +69,16 @@ func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opt
 	return out, nil
 }
 
+func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteUserResponse)
+	err := c.cc.Invoke(ctx, UserService_DeleteUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ListUsersResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[0], UserService_ListUsers_FullMethodName, cOpts...)
@@ -83,9 +101,16 @@ type UserService_ListUsersClient = grpc.ServerStreamingClient[ListUsersResponse]
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
+//
+// UserService service
 type UserServiceServer interface {
+	// Add user
 	AddUser(context.Context, *AddUserRequest) (*AddUserResponse, error)
+	// Get user by ID
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
+	// Delete user by ID
+	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
+	// List all users
 	ListUsers(*ListUsersRequest, grpc.ServerStreamingServer[ListUsersResponse]) error
 	mustEmbedUnimplementedUserServiceServer()
 }
@@ -102,6 +127,9 @@ func (UnimplementedUserServiceServer) AddUser(context.Context, *AddUserRequest) 
 }
 func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedUserServiceServer) ListUsers(*ListUsersRequest, grpc.ServerStreamingServer[ListUsersResponse]) error {
 	return status.Error(codes.Unimplemented, "method ListUsers not implemented")
@@ -163,6 +191,24 @@ func _UserService_GetUser_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DeleteUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_ListUsers_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(ListUsersRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -188,6 +234,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUser",
 			Handler:    _UserService_GetUser_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _UserService_DeleteUser_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

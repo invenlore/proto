@@ -4,29 +4,42 @@ package user;
 
 option go_package = "github.com/invenlore/proto/pkg/user";
 
+// User
 message User {
 	string id = 1;
 	string email = 2;
 }
 
+// Add User request
 message AddUserRequest {}
+
+// Add User response
 message AddUserResponse {
 	User user = 1;
 }
 
+// Get User request
 message GetUserRequest {
 	string id = 1;
 }
+
+// Get User response
 message GetUserResponse {
 	User user = 1;
 }
 
+// Delete User request
 message DeleteUserRequest {
 	string id = 1;
 }
+
+// Delete User response
 message DeleteUserResponse {}
 
+// List Users request
 message ListUsersRequest {}
+
+// List Users response
 message ListUsersResponse {
 	User user = 1;
 }

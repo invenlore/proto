@@ -17,37 +17,57 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	schemes: HTTPS;
 };
 
+// UserService service
 service UserService {
+	// Add user
 	rpc AddUser(AddUserRequest) returns (AddUserResponse) {
 		option (google.api.http) = {
 			post: "/api/v1/users"
 			body: "*"
 			response_body: "user"
 		};
+
 		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-			summary: "Add a user"
-			description: "Add a user"
+			summary: "Add user"
+			description: "Add user"
 			tags: "Users"
 		};
 	}
 
+	// Get user by ID
 	rpc GetUser(GetUserRequest) returns (GetUserResponse) {
 		option (google.api.http) = {
 			get: "/api/v1/users/{id}"
 			response_body: "user"
 		};
+
 		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-			summary: "Get a user"
-			description: "Get a user by id"
+			summary: "Get user"
+			description: "Get user by ID"
 			tags: "Users"
 		};
 	}
 
+	// Delete user by ID
+	rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+		option (google.api.http) = {
+			delete: "/api/v1/users/{id}"
+		};
+
+		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+			summary: "Delete user"
+			description: "Delete user by ID"
+			tags: "Users"
+		};
+	}
+
+	// List all users
 	rpc ListUsers(ListUsersRequest) returns (stream ListUsersResponse) {
 		option (google.api.http) = {
 			get: "/api/v1/users"
 			response_body: "user"
 		};
+
 		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
 			summary: "List users"
 			description: "List all users"
