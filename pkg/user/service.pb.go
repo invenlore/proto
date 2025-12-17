@@ -26,8 +26,9 @@ var File_user_service_proto protoreflect.FileDescriptor
 
 const file_user_service_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/service.proto\x12\x04user\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x13user/messages.proto2\x8d\x04\n" +
-	"\vUserService\x12t\n" +
+	"\x12user/service.proto\x12\x04user\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x13user/messages.proto2\xc9\x04\n" +
+	"\vUserService\x12:\n" +
+	"\vHealthCheck\x12\x13.user.HealthRequest\x1a\x14.user.HealthResponse\"\x00\x12t\n" +
 	"\aAddUser\x12\x14.user.AddUserRequest\x1a\x15.user.AddUserResponse\"<\x92A\x1b\n" +
 	"\x05Users\x12\bAdd user\x1a\bAdd user\x82\xd3\xe4\x93\x02\x18:\x01*b\x04user\"\r/api/v1/users\x12|\n" +
 	"\aGetUser\x12\x14.user.GetUserRequest\x1a\x15.user.GetUserResponse\"D\x92A!\n" +
@@ -41,26 +42,30 @@ const file_user_service_proto_rawDesc = "" +
 	"'gRPC-gateway invenlore proto repository\x12\"https://github.com/invenlore/protoZ(github.com/invenlore/proto/pkg/user;userb\x06proto3"
 
 var file_user_service_proto_goTypes = []any{
-	(*AddUserRequest)(nil),     // 0: user.AddUserRequest
-	(*GetUserRequest)(nil),     // 1: user.GetUserRequest
-	(*DeleteUserRequest)(nil),  // 2: user.DeleteUserRequest
-	(*ListUsersRequest)(nil),   // 3: user.ListUsersRequest
-	(*AddUserResponse)(nil),    // 4: user.AddUserResponse
-	(*GetUserResponse)(nil),    // 5: user.GetUserResponse
-	(*DeleteUserResponse)(nil), // 6: user.DeleteUserResponse
-	(*ListUsersResponse)(nil),  // 7: user.ListUsersResponse
+	(*HealthRequest)(nil),      // 0: user.HealthRequest
+	(*AddUserRequest)(nil),     // 1: user.AddUserRequest
+	(*GetUserRequest)(nil),     // 2: user.GetUserRequest
+	(*DeleteUserRequest)(nil),  // 3: user.DeleteUserRequest
+	(*ListUsersRequest)(nil),   // 4: user.ListUsersRequest
+	(*HealthResponse)(nil),     // 5: user.HealthResponse
+	(*AddUserResponse)(nil),    // 6: user.AddUserResponse
+	(*GetUserResponse)(nil),    // 7: user.GetUserResponse
+	(*DeleteUserResponse)(nil), // 8: user.DeleteUserResponse
+	(*ListUsersResponse)(nil),  // 9: user.ListUsersResponse
 }
 var file_user_service_proto_depIdxs = []int32{
-	0, // 0: user.UserService.AddUser:input_type -> user.AddUserRequest
-	1, // 1: user.UserService.GetUser:input_type -> user.GetUserRequest
-	2, // 2: user.UserService.DeleteUser:input_type -> user.DeleteUserRequest
-	3, // 3: user.UserService.ListUsers:input_type -> user.ListUsersRequest
-	4, // 4: user.UserService.AddUser:output_type -> user.AddUserResponse
-	5, // 5: user.UserService.GetUser:output_type -> user.GetUserResponse
-	6, // 6: user.UserService.DeleteUser:output_type -> user.DeleteUserResponse
-	7, // 7: user.UserService.ListUsers:output_type -> user.ListUsersResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	0, // 0: user.UserService.HealthCheck:input_type -> user.HealthRequest
+	1, // 1: user.UserService.AddUser:input_type -> user.AddUserRequest
+	2, // 2: user.UserService.GetUser:input_type -> user.GetUserRequest
+	3, // 3: user.UserService.DeleteUser:input_type -> user.DeleteUserRequest
+	4, // 4: user.UserService.ListUsers:input_type -> user.ListUsersRequest
+	5, // 5: user.UserService.HealthCheck:output_type -> user.HealthResponse
+	6, // 6: user.UserService.AddUser:output_type -> user.AddUserResponse
+	7, // 7: user.UserService.GetUser:output_type -> user.GetUserResponse
+	8, // 8: user.UserService.DeleteUser:output_type -> user.DeleteUserResponse
+	9, // 9: user.UserService.ListUsers:output_type -> user.ListUsersResponse
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

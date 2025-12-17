@@ -19,6 +19,9 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 
 // UserService service
 service UserService {
+	// HealthCheck
+	rpc HealthCheck(HealthRequest) returns (HealthResponse) {}
+
 	// Add user
 	rpc AddUser(AddUserRequest) returns (AddUserResponse) {
 		option (google.api.http) = {

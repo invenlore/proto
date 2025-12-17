@@ -4,6 +4,14 @@ package user;
 
 option go_package = "github.com/invenlore/proto/pkg/user";
 
+// HealthCheck request
+message HealthRequest {}
+
+// HealthCheck response
+message HealthResponse {
+	string status = 1;
+}
+
 // User
 message User {
 	string id = 1;
