@@ -18,4 +18,4 @@ make swagger
 make publish v=1.1.2
 ```
 
-All files will generated at ./proto/[name]
+All files will generated at ./pkg
