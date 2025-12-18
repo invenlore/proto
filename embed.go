@@ -21,7 +21,7 @@ func GetSwaggerUIEmbedFS() embed.FS {
 }
 
 func GetSwaggerUISubFS() (fs.FS, error) {
-	subFS, err := fs.Sub(SwaggerUI, "swagger_ui")
+	subFS, err := fs.Sub(SwaggerUI, "third_party/swagger_ui")
 	if err != nil {
 		return nil, fmt.Errorf("could not get sub filesystem for swagger_ui: %w", err)
 	}
