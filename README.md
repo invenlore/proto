@@ -1,4 +1,4 @@
-# Protobuf invenlore.io files
+# Proto files
 
 ### Generate proto:
 ```shell
