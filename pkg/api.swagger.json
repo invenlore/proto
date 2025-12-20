@@ -59,7 +59,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/userUser"
+              "type": "string"
             }
           },
           "default": {
@@ -178,13 +178,18 @@
     },
     "userAddUserRequest": {
       "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/userUser"
+        }
+      },
       "title": "Add User request"
     },
     "userAddUserResponse": {
       "type": "object",
       "properties": {
-        "user": {
-          "$ref": "#/definitions/userUser"
+        "id": {
+          "type": "string"
         }
       },
       "title": "Add User response"
@@ -224,6 +229,9 @@
       "type": "object",
       "properties": {
         "id": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         },
         "email": {

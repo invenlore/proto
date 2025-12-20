@@ -15,15 +15,18 @@ message HealthResponse {
 // User
 message User {
 	string id = 1;
-	string email = 2;
+	string name = 2;
+	string email = 3;
 }
 
 // Add User request
-message AddUserRequest {}
+message AddUserRequest {
+	User user = 1;
+}
 
 // Add User response
 message AddUserResponse {
-	User user = 1;
+	string id = 1;
 }
 
 // Get User request

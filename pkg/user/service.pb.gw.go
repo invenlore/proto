@@ -417,7 +417,7 @@ type response_UserService_AddUser_0 struct {
 
 func (m response_UserService_AddUser_0) XXX_ResponseBody() interface{} {
 	response := m.AddUserResponse
-	return response.User
+	return response.Id
 }
 
 type response_UserService_GetUser_0 struct {

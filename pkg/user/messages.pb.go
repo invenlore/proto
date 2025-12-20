@@ -107,7 +107,8 @@ func (x *HealthResponse) GetStatus() string {
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -149,6 +150,13 @@ func (x *User) GetId() string {
 	return ""
 }
 
+func (x *User) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 func (x *User) GetEmail() string {
 	if x != nil {
 		return x.Email
@@ -159,6 +167,7 @@ func (x *User) GetEmail() string {
 // Add User request
 type AddUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -193,10 +202,17 @@ func (*AddUserRequest) Descriptor() ([]byte, []int) {
 	return file_user_messages_proto_rawDescGZIP(), []int{3}
 }
 
+func (x *AddUserRequest) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 // Add User response
 type AddUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -231,11 +247,11 @@ func (*AddUserResponse) Descriptor() ([]byte, []int) {
 	return file_user_messages_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *AddUserResponse) GetUser() *User {
+func (x *AddUserResponse) GetId() string {
 	if x != nil {
-		return x.User
+		return x.Id
 	}
-	return nil
+	return ""
 }
 
 // Get User request
@@ -499,14 +515,16 @@ const file_user_messages_proto_rawDesc = "" +
 	"\x13user/messages.proto\x12\x04user\"\x0f\n" +
 	"\rHealthRequest\"(\n" +
 	"\x0eHealthResponse\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status\",\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\"@\n" +
 	"\x04User\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\"\x10\n" +
-	"\x0eAddUserRequest\"1\n" +
-	"\x0fAddUserResponse\x12\x1e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\"0\n" +
+	"\x0eAddUserRequest\x12\x1e\n" +
 	"\x04user\x18\x01 \x01(\v2\n" +
-	".user.UserR\x04user\" \n" +
+	".user.UserR\x04user\"!\n" +
+	"\x0fAddUserResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\" \n" +
 	"\x0eGetUserRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"1\n" +
 	"\x0fGetUserResponse\x12\x1e\n" +
@@ -547,7 +565,7 @@ var file_user_messages_proto_goTypes = []any{
 	(*ListUsersResponse)(nil),  // 10: user.ListUsersResponse
 }
 var file_user_messages_proto_depIdxs = []int32{
-	2, // 0: user.AddUserResponse.user:type_name -> user.User
+	2, // 0: user.AddUserRequest.user:type_name -> user.User
 	2, // 1: user.GetUserResponse.user:type_name -> user.User
 	2, // 2: user.ListUsersResponse.user:type_name -> user.User
 	3, // [3:3] is the sub-list for method output_type

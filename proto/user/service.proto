@@ -30,7 +30,7 @@ service UserService {
 		option (google.api.http) = {
 			post: "/api/v1/users"
 			body: "*"
-			response_body: "user"
+			response_body: "id"
 		};
 
 		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {

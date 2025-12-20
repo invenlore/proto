@@ -26,11 +26,11 @@ var File_user_service_proto protoreflect.FileDescriptor
 
 const file_user_service_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/service.proto\x12\x04user\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x13user/messages.proto2\xc9\x04\n" +
+	"\x12user/service.proto\x12\x04user\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x13user/messages.proto2\xc7\x04\n" +
 	"\vUserService\x12:\n" +
-	"\vHealthCheck\x12\x13.user.HealthRequest\x1a\x14.user.HealthResponse\"\x00\x12t\n" +
-	"\aAddUser\x12\x14.user.AddUserRequest\x1a\x15.user.AddUserResponse\"<\x92A\x1b\n" +
-	"\x05Users\x12\bAdd user\x1a\bAdd user\x82\xd3\xe4\x93\x02\x18:\x01*b\x04user\"\r/api/v1/users\x12|\n" +
+	"\vHealthCheck\x12\x13.user.HealthRequest\x1a\x14.user.HealthResponse\"\x00\x12r\n" +
+	"\aAddUser\x12\x14.user.AddUserRequest\x1a\x15.user.AddUserResponse\":\x92A\x1b\n" +
+	"\x05Users\x12\bAdd user\x1a\bAdd user\x82\xd3\xe4\x93\x02\x16:\x01*b\x02id\"\r/api/v1/users\x12|\n" +
 	"\aGetUser\x12\x14.user.GetUserRequest\x1a\x15.user.GetUserResponse\"D\x92A!\n" +
 	"\x05Users\x12\bGet user\x1a\x0eGet user by ID\x82\xd3\xe4\x93\x02\x1ab\x04user\x12\x12/api/v1/users/{id}\x12\x85\x01\n" +
 	"\n" +
@@ -38,7 +38,8 @@ const file_user_service_proto_rawDesc = "" +
 	"\x05Users\x12\vDelete user\x1a\x11Delete user by ID\x82\xd3\xe4\x93\x02\x14*\x12/api/v1/users/{id}\x12\x81\x01\n" +
 	"\tListUsers\x12\x16.user.ListUsersRequest\x1a\x17.user.ListUsersResponse\"A\x92A#\n" +
 	"\x05Users\x12\n" +
-	"List users\x1a\x0eList all users\x82\xd3\xe4\x93\x02\x15b\x04user\x12\r/api/v1/users0\x01B\x86\x01\x92AY\x12\x052\x031.0*\x01\x02rM\n" +
+	"List users\x1a\x0eList all users\x82\xd3\xe4\x93\x02\x15b\x04user\x12\r/api/v1/users0\x01B\xa7\x01\x92Az\x12&\n" +
+	"\x1cinvenlore.io OpenAPI Swagger2\x06latest*\x01\x02rM\n" +
 	"'gRPC-gateway invenlore proto repository\x12\"https://github.com/invenlore/protoZ(github.com/invenlore/proto/pkg/user;userb\x06proto3"
 
 var file_user_service_proto_goTypes = []any{
