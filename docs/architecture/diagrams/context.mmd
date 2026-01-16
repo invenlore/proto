@@ -14,14 +14,14 @@ flowchart LR
   RD --> REDIS[(Redis)]
   GW --> REDIS
 
-  MED --> S3[(Yandex S3)]
-  SRCH --> OS[(OpenSearch/ES)]
+  MED --> S3[(Yandex Object Storage)]
+  SRCH --> OS[(OpenSearch/Elasticsearch)]
 
-  WR --> OUT[Outbox (Mongo)]
-  RENDER[render worker] --> OUT
-  SRCHIDX[search indexer] --> OUT
-  MEDW[media worker] --> OUT
+  WR --> OUT[Outbox (MongoDB)];
+  OUT --> RENDER[render worker];
+  OUT --> SRCHIDX[search indexer];
+  OUT --> MEDW[media worker];
 
-  RENDER --> MONGO
-  SRCHIDX --> OS
-  MEDW --> S3
+  RENDER --> MONGO;
+  SRCHIDX --> OS;
+  MEDW --> S3;
