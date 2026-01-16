@@ -18,7 +18,7 @@ flowchart LR
   SRCH --> OS[(OpenSearch/Elasticsearch)]
 
   WR --> OUT
-  OUT[Outbox - MongoDB]
+  OUT[Outbox (MongoDB)]
 
   OUT --> RENDER[render worker]
   OUT --> SRCHIDX[search indexer]
