@@ -1,0 +1,27 @@
+flowchart LR
+  Client[Clients] -->|HTTP| GW[api.gateway]
+  GW -->|gRPC| ID[identity]
+  GW -->|gRPC| WR[wiki-write]
+  GW -->|gRPC| RD[wiki-read]
+  GW -->|gRPC| MED[media]
+  GW -->|gRPC| SRCH[search]
+
+  WR --> MONGO[(MongoDB)]
+  RD --> MONGO
+  ID --> MONGO
+  MED --> MONGO
+
+  RD --> REDIS[(Redis)]
+  GW --> REDIS
+
+  MED --> S3[(Yandex S3)]
+  SRCH --> OS[(OpenSearch/ES)]
+
+  WR --> OUT[Outbox (Mongo)]
+  RENDER[render worker] --> OUT
+  SRCHIDX[search indexer] --> OUT
+  MEDW[media worker] --> OUT
+
+  RENDER --> MONGO
+  SRCHIDX --> OS
+  MEDW --> S3

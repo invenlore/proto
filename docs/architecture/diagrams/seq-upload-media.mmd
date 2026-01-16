@@ -1,0 +1,17 @@
+sequenceDiagram
+  autonumber
+  participant C as Client
+  participant G as api.gateway
+  participant ME as media-service
+  participant S3 as S3 (Yandex)
+
+  C->>G: POST /v1/media/uploads
+  G->>ME: gRPC CreateUpload
+  ME-->>G: presigned PUT + media_id
+  G-->>C: presigned PUT + media_id
+  C->>S3: PUT object (direct)
+  C->>G: POST /v1/media/uploads/{media_id}/finalize
+  G->>ME: gRPC FinalizeUpload
+  ME->>S3: HEAD object / verify size/checksum
+  ME-->>G: OK
+  G-->>C: 200

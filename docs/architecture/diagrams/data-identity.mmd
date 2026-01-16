@@ -1,0 +1,29 @@
+erDiagram
+  USERS {
+    string _id
+    string email
+    string password_hash
+    datetime created_at
+  }
+
+  ROLES {
+    string _id
+    string name
+  }
+
+  USER_ROLES {
+    string _id
+    string user_id
+    string role_id
+  }
+
+  SESSIONS {
+    string _id
+    string user_id
+    string refresh_token_hash
+    datetime expires_at
+  }
+
+  USERS ||--o{ USER_ROLES : has
+  ROLES ||--o{ USER_ROLES : assigned
+  USERS ||--o{ SESSIONS : owns
