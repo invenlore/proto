@@ -6,12 +6,12 @@
 - outbox: базовый worker (render можно упростить)
 
 ## Next
-- render-service как отдельный воркер
-- search-service + indexer
+- render как отдельный воркер
+- search + indexer
 - permission snapshots и пространства (spaces)
 
 ## Scale
 - Redis cluster
-- Mongo replica set + read preferences
+- MongoDB replica set + read preferences
 - Разделение write/read по разным БД/кластерам
 - CDN для публичных snapshots и S3

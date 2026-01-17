@@ -1,11 +1,11 @@
 # 05. Data stores
 
 ## MongoDB (MVP single node)
-Используем разные базы/коллекции для разделения ответственности даже на одной ноде:
-- `identity_*` — identity
-- `wiki_write_*` — каноника
-- `wiki_read_*` — read-модель
-- `outbox_*` — события/задачи (можно по доменам)
+Используем разные базы для разделения ответственности даже на одной ноде:
+- `invenlore-identity-service-db` — identity
+- `invenlore-wiki-write-service-db` — каноника
+- `invenlore-wiki-read-service-db` — read-модель
+- `invenlore-outbox-db` — события/задачи (можно по доменам)
 
 ### Требования
 - Индексы обязательны (см. 06/10).
