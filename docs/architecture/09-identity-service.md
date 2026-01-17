@@ -1,4 +1,4 @@
-# 09. Identity (invenlore/identity.service)
+# 09. Identity (проект invenlore/identity.service)
 
 identity — центр доверия: выдаёт токены, ключи (JWKS) и хранит модель ролей/прав.
 Ранее сервис назывался user.service.

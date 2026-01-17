@@ -9,7 +9,7 @@ make
 make generate
 
 # Generate specific proto
-make generate/user
+make generate/identity
 
 # Generate Swagger file
 make swagger

@@ -6,7 +6,7 @@
   },
   "tags": [
     {
-      "name": "UserService"
+      "name": "IdentityService"
     }
   ],
   "schemes": [
@@ -23,7 +23,7 @@
       "get": {
         "summary": "List users",
         "description": "List all users",
-        "operationId": "UserService_ListUsers",
+        "operationId": "IdentityService_ListUsers",
         "responses": {
           "200": {
             "description": "(streaming responses)",
@@ -31,13 +31,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/userUser"
+                  "$ref": "#/definitions/identityUser"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of userListUsersResponse"
+              "title": "Stream result of identityListUsersResponse"
             }
           },
           "default": {
@@ -54,7 +54,7 @@
       "post": {
         "summary": "Add user",
         "description": "Add user",
-        "operationId": "UserService_AddUser",
+        "operationId": "IdentityService_AddUser",
         "responses": {
           "200": {
             "description": "",
@@ -75,7 +75,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/userAddUserRequest"
+              "$ref": "#/definitions/identityAddUserRequest"
             }
           }
         ],
@@ -88,12 +88,12 @@
       "get": {
         "summary": "Get user",
         "description": "Get user by ID",
-        "operationId": "UserService_GetUser",
+        "operationId": "IdentityService_GetUser",
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/userUser"
+              "$ref": "#/definitions/identityUser"
             }
           },
           "default": {
@@ -118,12 +118,12 @@
       "delete": {
         "summary": "Delete user",
         "description": "Delete user by ID",
-        "operationId": "UserService_DeleteUser",
+        "operationId": "IdentityService_DeleteUser",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/userDeleteUserResponse"
+              "$ref": "#/definitions/identityDeleteUserResponse"
             }
           },
           "default": {
@@ -148,6 +148,70 @@
     }
   },
   "definitions": {
+    "identityAddUserRequest": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/identityUser"
+        }
+      },
+      "title": "Add User request"
+    },
+    "identityAddUserResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "Add User response"
+    },
+    "identityDeleteUserResponse": {
+      "type": "object",
+      "title": "Delete User response"
+    },
+    "identityGetUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/identityUser"
+        }
+      },
+      "title": "Get User response"
+    },
+    "identityHealthResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "title": "HealthCheck response"
+    },
+    "identityListUsersResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/identityUser"
+        }
+      },
+      "title": "List Users response"
+    },
+    "identityUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "User"
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -175,70 +239,6 @@
           }
         }
       }
-    },
-    "userAddUserRequest": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/userUser"
-        }
-      },
-      "title": "Add User request"
-    },
-    "userAddUserResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      },
-      "title": "Add User response"
-    },
-    "userDeleteUserResponse": {
-      "type": "object",
-      "title": "Delete User response"
-    },
-    "userGetUserResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/userUser"
-        }
-      },
-      "title": "Get User response"
-    },
-    "userHealthResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "string"
-        }
-      },
-      "title": "HealthCheck response"
-    },
-    "userListUsersResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/userUser"
-        }
-      },
-      "title": "List Users response"
-    },
-    "userUser": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "title": "User"
     }
   },
   "externalDocs": {

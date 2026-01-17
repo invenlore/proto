@@ -1,4 +1,4 @@
-# Invenlore Wiki Architecture (MVP → High-load)
+# invenlore.io Wiki Architecture (MVP → High-load)
 
 Эта папка фиксирует архитектуру вики-системы invenlore и адаптацию под существующие проекты:
 

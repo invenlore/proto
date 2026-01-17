@@ -1,4 +1,4 @@
-# 08. API Gateway (invenlore/api.gateway)
+# 08. API Gateway (проект invenlore/api.gateway)
 
 Gateway — edge сервис: принимает HTTP, выполняет общие политики и вызывает внутренние gRPC.
 

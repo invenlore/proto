@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package user;
+package identity;
 
-option go_package = "github.com/invenlore/proto/pkg/user";
+option go_package = "github.com/invenlore/proto/pkg/identity";
 
 // HealthCheck request
 message HealthRequest {}

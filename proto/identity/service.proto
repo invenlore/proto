@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package user;
+package identity;
 
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
-import "user/messages.proto";
+import "identity/messages.proto";
 
-option go_package = "github.com/invenlore/proto/pkg/user;user";
+option go_package = "github.com/invenlore/proto/pkg/identity;identity";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: {
@@ -20,8 +20,8 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	schemes: HTTPS;
 };
 
-// UserService service
-service UserService {
+// IdentityService service
+service IdentityService {
 	// HealthCheck
 	rpc HealthCheck(HealthRequest) returns (HealthResponse) {}
 
