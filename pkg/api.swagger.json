@@ -31,19 +31,19 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/v1User"
+                  "$ref": "#/definitions/identity.v1.User"
                 },
                 "error": {
-                  "$ref": "#/definitions/rpcStatus"
+                  "$ref": "#/definitions/google.rpc.Status"
                 }
               },
-              "title": "Stream result of v1ListUsersResponse"
+              "title": "Stream result of identity.v1.ListUsersResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -65,7 +65,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -75,7 +75,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1AddUserRequest"
+              "$ref": "#/definitions/identity.v1.AddUserRequest"
             }
           }
         ],
@@ -93,13 +93,13 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/v1User"
+              "$ref": "#/definitions/identity.v1.User"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -123,13 +123,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteUserResponse"
+              "$ref": "#/definitions/identity.v1.DeleteUserResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -148,7 +148,7 @@
     }
   },
   "definitions": {
-    "protobufAny": {
+    "google.protobuf.Any": {
       "type": "object",
       "properties": {
         "@type": {
@@ -157,7 +157,7 @@
       },
       "additionalProperties": {}
     },
-    "rpcStatus": {
+    "google.rpc.Status": {
       "type": "object",
       "properties": {
         "code": {
@@ -171,21 +171,21 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/protobufAny"
+            "$ref": "#/definitions/google.protobuf.Any"
           }
         }
       }
     },
-    "v1AddUserRequest": {
+    "identity.v1.AddUserRequest": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/v1User"
+          "$ref": "#/definitions/identity.v1.User"
         }
       },
       "title": "Add User request"
     },
-    "v1AddUserResponse": {
+    "identity.v1.AddUserResponse": {
       "type": "object",
       "properties": {
         "id": {
@@ -194,20 +194,20 @@
       },
       "title": "Add User response"
     },
-    "v1DeleteUserResponse": {
+    "identity.v1.DeleteUserResponse": {
       "type": "object",
       "title": "Delete User response"
     },
-    "v1GetUserResponse": {
+    "identity.v1.GetUserResponse": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/v1User"
+          "$ref": "#/definitions/identity.v1.User"
         }
       },
       "title": "Get User response"
     },
-    "v1HealthResponse": {
+    "identity.v1.HealthResponse": {
       "type": "object",
       "properties": {
         "status": {
@@ -216,16 +216,16 @@
       },
       "title": "HealthCheck response"
     },
-    "v1ListUsersResponse": {
+    "identity.v1.ListUsersResponse": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/v1User"
+          "$ref": "#/definitions/identity.v1.User"
         }
       },
       "title": "List Users response"
     },
-    "v1User": {
+    "identity.v1.User": {
       "type": "object",
       "properties": {
         "id": {

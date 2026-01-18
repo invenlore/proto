@@ -32,6 +32,7 @@ swagger:
 		--openapiv2_out $(PROTO_PKG_PATH) \
 		--openapiv2_opt allow_merge=true \
 		--openapiv2_opt merge_file_name=api \
+		--openapiv2_opt openapi_naming_strategy=fqn \
     	identity/v1/messages.proto identity/v1/service.proto
 
 publish:
