@@ -19,7 +19,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/users": {
+    "/v1/users": {
       "get": {
         "summary": "List users",
         "description": "List all users",
@@ -31,13 +31,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/identityUser"
+                  "$ref": "#/definitions/v1User"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of identityListUsersResponse"
+              "title": "Stream result of v1ListUsersResponse"
             }
           },
           "default": {
@@ -75,7 +75,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/identityAddUserRequest"
+              "$ref": "#/definitions/v1AddUserRequest"
             }
           }
         ],
@@ -84,7 +84,7 @@
         ]
       }
     },
-    "/api/v1/users/{id}": {
+    "/v1/users/{id}": {
       "get": {
         "summary": "Get user",
         "description": "Get user by ID",
@@ -93,7 +93,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/identityUser"
+              "$ref": "#/definitions/v1User"
             }
           },
           "default": {
@@ -123,7 +123,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identityDeleteUserResponse"
+              "$ref": "#/definitions/v1DeleteUserResponse"
             }
           },
           "default": {
@@ -148,70 +148,6 @@
     }
   },
   "definitions": {
-    "identityAddUserRequest": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/identityUser"
-        }
-      },
-      "title": "Add User request"
-    },
-    "identityAddUserResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      },
-      "title": "Add User response"
-    },
-    "identityDeleteUserResponse": {
-      "type": "object",
-      "title": "Delete User response"
-    },
-    "identityGetUserResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/identityUser"
-        }
-      },
-      "title": "Get User response"
-    },
-    "identityHealthResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "string"
-        }
-      },
-      "title": "HealthCheck response"
-    },
-    "identityListUsersResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/identityUser"
-        }
-      },
-      "title": "List Users response"
-    },
-    "identityUser": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "title": "User"
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -239,6 +175,70 @@
           }
         }
       }
+    },
+    "v1AddUserRequest": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/v1User"
+        }
+      },
+      "title": "Add User request"
+    },
+    "v1AddUserResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "Add User response"
+    },
+    "v1DeleteUserResponse": {
+      "type": "object",
+      "title": "Delete User response"
+    },
+    "v1GetUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/v1User"
+        }
+      },
+      "title": "Get User response"
+    },
+    "v1HealthResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "title": "HealthCheck response"
+    },
+    "v1ListUsersResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/v1User"
+        }
+      },
+      "title": "List Users response"
+    },
+    "v1User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "User"
     }
   },
   "externalDocs": {

@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package identity;
+package identity.v1;
 
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
-import "identity/messages.proto";
+import "identity/v1/messages.proto";
 
-option go_package = "github.com/invenlore/proto/pkg/identity;identity";
+option go_package = "github.com/invenlore/proto/pkg/identity/v1;identityv1";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 	info: {
@@ -28,7 +28,7 @@ service IdentityService {
 	// Add user
 	rpc AddUser(AddUserRequest) returns (AddUserResponse) {
 		option (google.api.http) = {
-			post: "/api/v1/users"
+			post: "/v1/users"
 			body: "*"
 			response_body: "id"
 		};
@@ -43,7 +43,7 @@ service IdentityService {
 	// Get user by ID
 	rpc GetUser(GetUserRequest) returns (GetUserResponse) {
 		option (google.api.http) = {
-			get: "/api/v1/users/{id}"
+			get: "/v1/users/{id}"
 			response_body: "user"
 		};
 
@@ -57,7 +57,7 @@ service IdentityService {
 	// Delete user by ID
 	rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
 		option (google.api.http) = {
-			delete: "/api/v1/users/{id}"
+			delete: "/v1/users/{id}"
 		};
 
 		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -70,7 +70,7 @@ service IdentityService {
 	// List all users
 	rpc ListUsers(ListUsersRequest) returns (stream ListUsersResponse) {
 		option (google.api.http) = {
-			get: "/api/v1/users"
+			get: "/v1/users"
 			response_body: "user"
 		};
 

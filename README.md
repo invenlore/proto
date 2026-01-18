@@ -1,6 +1,7 @@
 # Proto files
 
 ### Generate proto:
+
 ```shell
 # Generate all protos
 make
@@ -8,7 +9,7 @@ make
 # or
 make generate
 
-# Generate specific proto
+# Generate specific proto (v1)
 make generate/identity
 
 # Generate Swagger file
@@ -18,4 +19,4 @@ make swagger
 make publish v=1.1.2
 ```
 
-All files will generated at ./pkg
+All files will generated at ./pkg (e.g.: pkg/identity/v1)

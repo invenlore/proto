@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v5.29.3
-// source: identity/service.proto
+// source: identity/v1/service.proto
 
-package identity
+package identityv1
 
 import (
 	context "context"
@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	IdentityService_HealthCheck_FullMethodName = "/identity.IdentityService/HealthCheck"
-	IdentityService_AddUser_FullMethodName     = "/identity.IdentityService/AddUser"
-	IdentityService_GetUser_FullMethodName     = "/identity.IdentityService/GetUser"
-	IdentityService_DeleteUser_FullMethodName  = "/identity.IdentityService/DeleteUser"
-	IdentityService_ListUsers_FullMethodName   = "/identity.IdentityService/ListUsers"
+	IdentityService_HealthCheck_FullMethodName = "/identity.v1.IdentityService/HealthCheck"
+	IdentityService_AddUser_FullMethodName     = "/identity.v1.IdentityService/AddUser"
+	IdentityService_GetUser_FullMethodName     = "/identity.v1.IdentityService/GetUser"
+	IdentityService_DeleteUser_FullMethodName  = "/identity.v1.IdentityService/DeleteUser"
+	IdentityService_ListUsers_FullMethodName   = "/identity.v1.IdentityService/ListUsers"
 )
 
 // IdentityServiceClient is the client API for IdentityService service.
@@ -260,7 +260,7 @@ type IdentityService_ListUsersServer = grpc.ServerStreamingServer[ListUsersRespo
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var IdentityService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "identity.IdentityService",
+	ServiceName: "identity.v1.IdentityService",
 	HandlerType: (*IdentityServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -287,5 +287,5 @@ var IdentityService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "identity/service.proto",
+	Metadata: "identity/v1/service.proto",
 }

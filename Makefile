@@ -11,7 +11,7 @@ generate:
 	make generate/identity
 
 generate/identity:
-	rm -rf $(PROTO_PKG_PATH)/identity/*
+	rm -rf $(PROTO_PKG_PATH)/identity/v1/*
 	protoc \
 		--proto_path $(PROTO_PATH) \
 		--proto_path $(PROTO_VENDOR_PATH) \
@@ -22,7 +22,7 @@ generate/identity:
 		--grpc-gateway_out $(PROTO_PKG_PATH) \
     	--grpc-gateway_opt paths=source_relative \
     	--grpc-gateway_opt generate_unbound_methods=true \
-    	identity/messages.proto identity/service.proto
+    	identity/v1/messages.proto identity/v1/service.proto
 
 swagger:
 	rm -f $(PROTO_PKG_PATH)/api.swagger.json
@@ -32,7 +32,7 @@ swagger:
 		--openapiv2_out $(PROTO_PKG_PATH) \
 		--openapiv2_opt allow_merge=true \
 		--openapiv2_opt merge_file_name=api \
-    	identity/messages.proto identity/service.proto
+    	identity/v1/messages.proto identity/v1/service.proto
 
 publish:
 	GOPROXY=proxy.golang.org go list -m github.com/invenlore/proto@v$(v)
