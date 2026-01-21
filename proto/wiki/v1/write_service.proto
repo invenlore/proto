@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+// Wiki write APIs for creating and mutating pages.
+package wiki.v1;
+
+import "google/api/annotations.proto";
+import "common/v1/utils.proto";
+import "wiki/v1/messages.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/wiki/v1;wikiv1";
+
+// WikiWriteService handles write operations for wiki pages.
+service WikiWriteService {
+	// HealthCheck verifies service liveness.
+	rpc HealthCheck(common.v1.ServiceHealthRequest) returns (common.v1.ServiceHealthResponse) {}
+
+	// CreatePage creates a new page and initial revision.
+	rpc CreatePage(CreatePageRequest) returns (CreatePageResponse) {
+		option (google.api.http) = {
+			post: "/v1/spaces/{space_id}/pages"
+			body: "*"
+		};
+	}
+
+	// CreateRevision creates a new revision for an existing page.
+	rpc CreateRevision(CreateRevisionRequest) returns (CreateRevisionResponse) {
+		option (google.api.http) = {
+			post: "/v1/pages/{page_id}/revisions"
+			body: "*"
+		};
+	}
+
+	// DeletePage removes a page (soft delete in write model).
+	rpc DeletePage(DeletePageRequest) returns (DeletePageResponse) {
+		option (google.api.http) = {
+			delete: "/v1/pages/{page_id}"
+		};
+	}
+
+	// SetPageAcl updates access control snapshot for a page.
+	rpc SetPageAcl(SetPageAclRequest) returns (SetPageAclResponse) {
+		option (google.api.http) = {
+			post: "/v1/pages/{page_id}/acl"
+			body: "*"
+		};
+	}
+}

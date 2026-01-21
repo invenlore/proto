@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+// Shared OpenAPI configuration for invenlore public API.
+package common.v1;
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/common/v1;commonv1";
+
+// Common swagger metadata used by grpc-gateway OpenAPI generator.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+	info: {
+		title: "invenlore.io OpenAPI Swagger";
+		version: "latest";
+	};
+	external_docs: {
+		url: "https://github.com/invenlore/proto";
+		description: "gRPC-gateway invenlore proto repository";
+	};
+	schemes: HTTPS;
+};

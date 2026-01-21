@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+// Search domain messages used for search and suggestions.
+package search.v1;
+
+import "common/v1/pagination.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/search/v1;searchv1";
+
+// SearchHit describes a single search result.
+message SearchHit {
+	// Page id.
+	string page_id = 1;
+	// Space id.
+	string space_id = 2;
+	// Page title.
+	string title = 3;
+	// Page slug.
+	string slug = 4;
+	// Highlighted snippet.
+	string snippet = 5;
+}
+
+// SearchRequest contains full-text query and filters.
+message SearchRequest {
+	// Query string.
+	string query = 1;
+	// Optional space filter.
+	string space_id = 2;
+	// Pagination settings.
+	common.v1.PageRequest page = 3;
+}
+
+// SearchResponse returns hits and pagination metadata.
+message SearchResponse {
+	// Matching documents.
+	repeated SearchHit hits = 1;
+	// Pagination info.
+	common.v1.PageResponse page = 2;
+}
+
+// SuggestRequest contains prefix for autocomplete.
+message SuggestRequest {
+	// Prefix input.
+	string prefix = 1;
+	// Optional space filter.
+	string space_id = 2;
+}
+
+// SuggestResponse returns suggestions for prefix.
+message SuggestResponse {
+	// Suggested tokens.
+	repeated string suggestions = 1;
+}

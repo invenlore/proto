@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+// Shared service utils.
+package common.v1;
+
+option go_package = "github.com/invenlore/proto/pkg/common/v1;commonv1";
+
+// Health check request.
+message ServiceHealthRequest {}
+
+// Health check response.
+message ServiceHealthResponse {
+	string status = 1;
+}

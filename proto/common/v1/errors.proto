@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+// Shared error model conventions for invenlore services.
+package common.v1;
+
+import "google/rpc/status.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/common/v1;commonv1";
+
+// ErrorEnvelope wraps google.rpc.Status to standardize error payloads.
+message ErrorEnvelope {
+	// gRPC status payload with optional details.
+	google.rpc.Status status = 1;
+}

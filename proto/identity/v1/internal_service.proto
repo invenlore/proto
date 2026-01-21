@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+// Internal identity APIs used by backend services.
+package identity.v1;
+
+import "common/v1/utils.proto";
+import "identity/v1/messages.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/identity/v1;identityv1";
+
+// IdentityInternalService exposes JWKS and authorization helpers.
+service IdentityInternalService {
+	// HealthCheck verifies service liveness.
+	rpc HealthCheck(common.v1.ServiceHealthRequest) returns (common.v1.ServiceHealthResponse) {}
+	// GetJWKS returns the JSON Web Key Set used to validate JWTs.
+	rpc GetJWKS(GetJWKSRequest) returns (GetJWKSResponse) {}
+	// ValidateToken validates a JWT and returns subject claims.
+	rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse) {}
+	// Authorize checks access for a specific action/resource.
+	rpc Authorize(AuthorizeRequest) returns (AuthorizeResponse) {}
+	// GetUserBrief returns minimal user data without PII.
+	rpc GetUserBrief(GetUserBriefRequest) returns (GetUserBriefResponse) {}
+}

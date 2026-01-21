@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+// Public identity APIs exposed through the gateway.
+package identity.v1;
+
+import "google/api/annotations.proto";
+import "identity/v1/messages.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/identity/v1;identityv1";
+
+// IdentityPublicService defines authentication, profile, and admin operations exposed over HTTP.
+service IdentityPublicService {
+	// Register creates a new user account.
+	rpc Register(RegisterRequest) returns (RegisterResponse) {
+		option (google.api.http) = {
+			post: "/v1/auth/register"
+			body: "*"
+		};
+	}
+
+	// Login authenticates a user and returns tokens.
+	rpc Login(LoginRequest) returns (LoginResponse) {
+		option (google.api.http) = {
+			post: "/v1/auth/login"
+			body: "*"
+		};
+	}
+
+	// Refresh rotates access/refresh tokens.
+	rpc Refresh(RefreshRequest) returns (RefreshResponse) {
+		option (google.api.http) = {
+			post: "/v1/auth/refresh"
+			body: "*"
+		};
+	}
+
+	// Logout revokes a refresh token.
+	rpc Logout(LogoutRequest) returns (LogoutResponse) {
+		option (google.api.http) = {
+			post: "/v1/auth/logout"
+			body: "*"
+		};
+	}
+
+	// GetProfile returns the current user profile.
+	rpc GetProfile(GetProfileRequest) returns (GetProfileResponse) {
+		option (google.api.http) = {
+			get: "/v1/profile"
+		};
+	}
+
+	// UpdateProfile updates profile fields.
+	rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse) {
+		option (google.api.http) = {
+			patch: "/v1/profile"
+			body: "*"
+		};
+	}
+
+	// AddUser creates a new user from admin API.
+	rpc AddUser(AddUserRequest) returns (AddUserResponse) {
+		option (google.api.http) = {
+			post: "/v1/admin/users"
+			body: "*"
+		};
+	}
+
+	// GetUser returns a user by id (admin API).
+	rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+		option (google.api.http) = {
+			get: "/v1/admin/users/{id}"
+		};
+	}
+
+	// DeleteUser removes a user by id (admin API).
+	rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+		option (google.api.http) = {
+			delete: "/v1/admin/users/{id}"
+		};
+	}
+
+	// ListUsers returns users with pagination (admin API).
+	rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+		option (google.api.http) = {
+			get: "/v1/admin/users"
+		};
+	}
+}

@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+// Media domain messages for presigned upload/download workflows.
+package media.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/media/v1;mediav1";
+
+// MediaObject represents stored media metadata.
+message MediaObject {
+	// Media identifier.
+	string media_id = 1;
+	// Owner user id.
+	string owner_id = 2;
+	// MIME content type.
+	string content_type = 3;
+	// Object size in bytes.
+	int64 size_bytes = 4;
+	// SHA-256 checksum.
+	string sha256 = 5;
+	// Creation timestamp.
+	google.protobuf.Timestamp created_at = 6;
+}
+
+// Request to initiate an upload.
+message CreateUploadRequest {
+	// MIME type of the uploaded file.
+	string content_type = 1;
+	// Size of the file in bytes.
+	int64 size_bytes = 2;
+	// SHA-256 checksum.
+	string sha256 = 3;
+}
+
+// Response with presigned upload URL.
+message CreateUploadResponse {
+	// Media id reserved for the upload.
+	string media_id = 1;
+	// Presigned upload URL.
+	string upload_url = 2;
+	// Additional required headers for the upload.
+	map<string, string> required_headers = 3;
+	// Presign expiration in seconds.
+	int64 expires_in_seconds = 4;
+}
+
+// Request to finalize an upload.
+message FinalizeUploadRequest {
+	// Media id to finalize.
+	string media_id = 1;
+}
+
+// Response with stored media metadata.
+message FinalizeUploadResponse {
+	MediaObject media = 1;
+}
+
+// Request to fetch a presigned download URL.
+message GetDownloadRequest {
+	// Media id to download.
+	string media_id = 1;
+}
+
+// Response with presigned download URL.
+message GetDownloadResponse {
+	// Presigned download URL.
+	string download_url = 1;
+	// Presign expiration in seconds.
+	int64 expires_in_seconds = 2;
+}

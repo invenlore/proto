@@ -1,56 +1,204 @@
 syntax = "proto3";
 
+// Identity domain messages for authentication, profile, and admin APIs.
 package identity.v1;
 
 option go_package = "github.com/invenlore/proto/pkg/identity/v1;identityv1";
 
-// HealthCheck request
-message HealthRequest {}
-
-// HealthCheck response
-message HealthResponse {
-	string status = 1;
-}
-
-// User
+// User represents a full user record used across public and admin APIs.
 message User {
+	// Stable user identifier.
 	string id = 1;
+	// Display name of the user.
 	string name = 2;
+	// Email address of the user.
 	string email = 3;
+	// Assigned roles/scopes for authorization.
+	repeated string roles = 4;
 }
 
-// Add User request
+// Minimal user data without PII.
+message UserBrief {
+	// Stable user identifier.
+	string id = 1;
+	// Display name of the user.
+	string name = 2;
+}
+
+// Request to register a new user.
+message RegisterRequest {
+	// Email used as login.
+	string email = 1;
+	// Password in plain text (hashed server-side).
+	string password = 2;
+	// Display name.
+	string name = 3;
+}
+
+// Result of successful registration.
+message RegisterResponse {
+	// Newly created user id.
+	string id = 1;
+	// Created user record.
+	User user = 2;
+}
+
+// Request to authenticate a user.
+message LoginRequest {
+	// Login email.
+	string email = 1;
+	// User password.
+	string password = 2;
+}
+
+// Authentication response with tokens.
+message LoginResponse {
+	// Short-lived access token (JWT).
+	string access_token = 1;
+	// Refresh token used to rotate access tokens.
+	string refresh_token = 2;
+	// Access token TTL in seconds.
+	int64 expires_in_seconds = 3;
+	// User snapshot.
+	User user = 4;
+}
+
+// Request to refresh tokens.
+message RefreshRequest {
+	// Previously issued refresh token.
+	string refresh_token = 1;
+}
+
+// Response with refreshed tokens.
+message RefreshResponse {
+	string access_token = 1;
+	string refresh_token = 2;
+	int64 expires_in_seconds = 3;
+}
+
+// Request to revoke a refresh token.
+message LogoutRequest {
+	// Refresh token to revoke.
+	string refresh_token = 1;
+}
+
+// Logout response.
+message LogoutResponse {}
+
+// Request current user profile.
+message GetProfileRequest {}
+
+// Profile response for the current user.
+message GetProfileResponse {
+	User user = 1;
+}
+
+// Request to update profile fields.
+message UpdateProfileRequest {
+	// Updated display name.
+	string name = 1;
+}
+
+// Profile update response.
+message UpdateProfileResponse {
+	User user = 1;
+}
+
+// Request to fetch JWKS.
+message GetJWKSRequest {}
+
+// Response containing JSON Web Key Set.
+message GetJWKSResponse {
+	JWKSet jwks = 1;
+}
+
+// JSON Web Key Set.
+message JWKSet {
+	repeated JWK keys = 1;
+}
+
+// JSON Web Key entry for RSA or EC keys.
+message JWK {
+	string kid = 1;
+	string kty = 2;
+	string use = 3;
+	string alg = 4;
+	string n = 5;
+	string e = 6;
+	string crv = 7;
+	string x = 8;
+	string y = 9;
+}
+
+// Request to validate a token (optional helper endpoint).
+message ValidateTokenRequest {
+	string token = 1;
+}
+
+// Result of token validation.
+message ValidateTokenResponse {
+	string id = 1;
+	repeated string roles = 2;
+}
+
+// Request for fine-grained authorization.
+message AuthorizeRequest {
+	string id = 1;
+	string action = 2;
+	string resource = 3;
+}
+
+// Authorization decision.
+message AuthorizeResponse {
+	bool allowed = 1;
+}
+
+// Request for minimal user info.
+message GetUserBriefRequest {
+	string id = 1;
+}
+
+// Response with minimal user info.
+message GetUserBriefResponse {
+	UserBrief user = 1;
+}
+
+// Request to create a new user from admin API.
 message AddUserRequest {
 	User user = 1;
 }
 
-// Add User response
+// Response for created user.
 message AddUserResponse {
 	string id = 1;
 }
 
-// Get User request
+// Request to fetch a user by id.
 message GetUserRequest {
 	string id = 1;
 }
 
-// Get User response
+// Response with user data.
 message GetUserResponse {
 	User user = 1;
 }
 
-// Delete User request
+// Request to delete a user.
 message DeleteUserRequest {
 	string id = 1;
 }
 
-// Delete User response
+// Response for delete operation.
 message DeleteUserResponse {}
 
-// List Users request
-message ListUsersRequest {}
+// Request to list users.
+message ListUsersRequest {
+	int32 page_size = 1;
+	string page_token = 2;
+}
 
-// List Users response
+// Response with users and pagination info.
 message ListUsersResponse {
-	User user = 1;
+	repeated User users = 1;
+	string next_page_token = 2;
 }

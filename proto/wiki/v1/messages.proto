@@ -1,0 +1,206 @@
+syntax = "proto3";
+
+// Wiki domain messages for write/read services and read model snapshots.
+package wiki.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/wiki/v1;wikiv1";
+
+// PermissionSnapshot keeps a minimal snapshot of access rights.
+message PermissionSnapshot {
+	// Roles allowed to view the page.
+	repeated string allowed_roles = 1;
+}
+
+// Page represents the canonical page aggregate.
+message Page {
+	// Unique page identifier.
+	string page_id = 1;
+	// Space identifier.
+	string space_id = 2;
+	// URL-friendly slug.
+	string slug = 3;
+	// Page title.
+	string title = 4;
+	// Current head revision id.
+	string head_revision_id = 5;
+	// Creation timestamp.
+	google.protobuf.Timestamp created_at = 6;
+	// Last update timestamp.
+	google.protobuf.Timestamp updated_at = 7;
+}
+
+// Revision represents a page revision in the write model.
+message Revision {
+	// Unique revision identifier.
+	string revision_id = 1;
+	// Owning page id.
+	string page_id = 2;
+	// Author user id.
+	string author_id = 3;
+	// Base revision id for optimistic concurrency.
+	string base_revision_id = 4;
+	// Markdown content.
+	string content_markdown = 5;
+	// Content hash for deduplication.
+	string content_hash = 6;
+	// Creation timestamp.
+	google.protobuf.Timestamp created_at = 7;
+}
+
+// PageHead is a lightweight read-model pointer to the head revision.
+message PageHead {
+	// Page id.
+	string page_id = 1;
+	// Head revision id.
+	string head_revision_id = 2;
+	// Space id.
+	string space_id = 3;
+	// Page slug.
+	string slug = 4;
+	// Page title.
+	string title = 5;
+	// Snapshot of permissions.
+	PermissionSnapshot perms = 6;
+	// Last update timestamp.
+	google.protobuf.Timestamp updated_at = 7;
+}
+
+// PageSnapshot is an immutable rendered snapshot for fast reads.
+message PageSnapshot {
+	// Page id.
+	string page_id = 1;
+	// Revision id.
+	string revision_id = 2;
+	// Space id.
+	string space_id = 3;
+	// Page slug.
+	string slug = 4;
+	// Page title.
+	string title = 5;
+	// Rendered HTML.
+	string html = 6;
+	// Table of contents (serialized).
+	string toc = 7;
+	// Short summary.
+	string summary = 8;
+	// Word count.
+	int32 word_count = 9;
+	// Snapshot creation timestamp.
+	google.protobuf.Timestamp created_at = 10;
+}
+
+// Request to create a new page with the initial revision.
+message CreatePageRequest {
+	// Space id where the page lives.
+	string space_id = 1;
+	// Slug for the new page.
+	string slug = 2;
+	// Title for the new page.
+	string title = 3;
+	// Markdown content.
+	string content_markdown = 4;
+}
+
+// Response for create page.
+message CreatePageResponse {
+	// Newly created page id.
+	string page_id = 1;
+	// Newly created revision id.
+	string revision_id = 2;
+}
+
+// Request to create a new revision for a page.
+message CreateRevisionRequest {
+	// Target page id.
+	string page_id = 1;
+	// Base revision id for concurrency control.
+	string base_revision_id = 2;
+	// Markdown content.
+	string content_markdown = 3;
+}
+
+// Response with created revision id.
+message CreateRevisionResponse {
+	// New revision id.
+	string revision_id = 1;
+}
+
+// Request to delete a page.
+message DeletePageRequest {
+	// Page id to delete.
+	string page_id = 1;
+}
+
+// Response for delete page.
+message DeletePageResponse {}
+
+// Request to update ACL snapshot for a page.
+message SetPageAclRequest {
+	// Page id to update.
+	string page_id = 1;
+	// Updated permission snapshot.
+	PermissionSnapshot perms = 2;
+}
+
+// Response for ACL update.
+message SetPageAclResponse {}
+
+// Request to fetch the head pointer.
+message GetPageHeadRequest {
+	// Page id.
+	string page_id = 1;
+}
+
+// Response with head pointer.
+message GetPageHeadResponse {
+	// Head pointer.
+	PageHead head = 1;
+}
+
+// Request to fetch a snapshot by revision id.
+message GetPageSnapshotRequest {
+	// Page id.
+	string page_id = 1;
+	// Revision id.
+	string revision_id = 2;
+}
+
+// Response with a page snapshot.
+message GetPageSnapshotResponse {
+	// Snapshot payload.
+	PageSnapshot snapshot = 1;
+}
+
+// Request to fetch a page by slug.
+message GetPageBySlugRequest {
+	// Space id.
+	string space_id = 1;
+	// Page slug.
+	string slug = 2;
+}
+
+// Response with snapshot resolved by slug.
+message GetPageBySlugResponse {
+	// Snapshot payload.
+	PageSnapshot snapshot = 1;
+}
+
+// Request to list pages in a space.
+message ListPagesRequest {
+	// Space id.
+	string space_id = 1;
+	// Maximum number of items.
+	int32 page_size = 2;
+	// Pagination token.
+	string page_token = 3;
+}
+
+// Response with page heads and pagination data.
+message ListPagesResponse {
+	// Page head entries.
+	repeated PageHead pages = 1;
+	// Pagination token.
+	string next_page_token = 2;
+}

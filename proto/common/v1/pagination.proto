@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+// Shared pagination primitives for list endpoints.
+package common.v1;
+
+option go_package = "github.com/invenlore/proto/pkg/common/v1;commonv1";
+
+// PageRequest carries pagination parameters for list operations.
+message PageRequest {
+	// Maximum number of items to return.
+	int32 page_size = 1;
+	// Token for fetching the next page.
+	string page_token = 2;
+}
+
+// PageResponse carries pagination metadata for list responses.
+message PageResponse {
+	// Token for fetching the next page.
+	string next_page_token = 1;
+}

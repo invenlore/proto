@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+// Media APIs for presigned upload/download workflows.
+package media.v1;
+
+import "google/api/annotations.proto";
+import "common/v1/utils.proto";
+import "media/v1/messages.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/media/v1;mediav1";
+
+// MediaService handles media upload and download flows.
+service MediaService {
+	// HealthCheck verifies service liveness.
+	rpc HealthCheck(common.v1.ServiceHealthRequest) returns (common.v1.ServiceHealthResponse) {}
+
+	// CreateUpload returns a presigned URL for uploading media.
+	rpc CreateUpload(CreateUploadRequest) returns (CreateUploadResponse) {
+		option (google.api.http) = {
+			post: "/v1/media:createUpload"
+			body: "*"
+		};
+	}
+
+	// FinalizeUpload validates uploaded media and persists metadata.
+	rpc FinalizeUpload(FinalizeUploadRequest) returns (FinalizeUploadResponse) {
+		option (google.api.http) = {
+			post: "/v1/media/{media_id}:finalize"
+			body: "*"
+		};
+	}
+
+	// GetDownload returns a presigned URL for downloading media.
+	rpc GetDownload(GetDownloadRequest) returns (GetDownloadResponse) {
+		option (google.api.http) = {
+			get: "/v1/media/{media_id}:download"
+		};
+	}
+}

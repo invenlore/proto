@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+// Media outbox event payloads.
+package media.v1;
+
+option go_package = "github.com/invenlore/proto/pkg/media/v1;mediav1";
+
+// MediaUploaded is emitted when an upload is finalized.
+message MediaUploaded {
+	// Media id.
+	string media_id = 1;
+}

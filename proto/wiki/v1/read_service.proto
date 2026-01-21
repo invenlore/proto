@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+// Wiki read APIs optimized for fast read model access.
+package wiki.v1;
+
+import "google/api/annotations.proto";
+import "common/v1/utils.proto";
+import "wiki/v1/messages.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/wiki/v1;wikiv1";
+
+// WikiReadService handles read operations for wiki pages.
+service WikiReadService {
+	// HealthCheck verifies service liveness.
+	rpc HealthCheck(common.v1.ServiceHealthRequest) returns (common.v1.ServiceHealthResponse) {}
+
+	// GetPageHead returns the head pointer for a page.
+	rpc GetPageHead(GetPageHeadRequest) returns (GetPageHeadResponse) {
+		option (google.api.http) = {
+			get: "/v1/pages/{page_id}/head"
+		};
+	}
+
+	// GetPageSnapshot returns an immutable snapshot for a revision.
+	rpc GetPageSnapshot(GetPageSnapshotRequest) returns (GetPageSnapshotResponse) {
+		option (google.api.http) = {
+			get: "/v1/pages/{page_id}/revisions/{revision_id}/snapshot"
+		};
+	}
+
+	// GetPageBySlug resolves a page by slug within a space.
+	rpc GetPageBySlug(GetPageBySlugRequest) returns (GetPageBySlugResponse) {
+		option (google.api.http) = {
+			get: "/v1/spaces/{space_id}/pages:bySlug/{slug}"
+		};
+	}
+
+	// ListPages lists pages within a space with pagination.
+	rpc ListPages(ListPagesRequest) returns (ListPagesResponse) {
+		option (google.api.http) = {
+			get: "/v1/spaces/{space_id}/pages"
+		};
+	}
+}

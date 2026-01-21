@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+// Search APIs exposed via gateway.
+package search.v1;
+
+import "google/api/annotations.proto";
+import "common/v1/utils.proto";
+import "search/v1/messages.proto";
+
+option go_package = "github.com/invenlore/proto/pkg/search/v1;searchv1";
+
+// SearchService handles full-text search and suggestions.
+service SearchService {
+	// HealthCheck verifies service liveness.
+	rpc HealthCheck(common.v1.ServiceHealthRequest) returns (common.v1.ServiceHealthResponse) {}
+
+	// Search executes full-text search query.
+	rpc Search(SearchRequest) returns (SearchResponse) {
+		option (google.api.http) = {
+			get: "/v1/search"
+		};
+	}
+
+	// Suggest returns query suggestions for prefix.
+	rpc Suggest(SuggestRequest) returns (SuggestResponse) {
+		option (google.api.http) = {
+			get: "/v1/search:suggest"
+		};
+	}
+}

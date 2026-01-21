@@ -2,11 +2,30 @@
   "swagger": "2.0",
   "info": {
     "title": "invenlore.io OpenAPI Swagger",
+    "description": "Shared OpenAPI configuration for invenlore public API.",
     "version": "latest"
   },
   "tags": [
     {
-      "name": "IdentityService"
+      "name": "IdentityPublicService"
+    },
+    {
+      "name": "IdentityInternalService"
+    },
+    {
+      "name": "IdentityAdminService"
+    },
+    {
+      "name": "WikiReadService"
+    },
+    {
+      "name": "WikiWriteService"
+    },
+    {
+      "name": "MediaService"
+    },
+    {
+      "name": "SearchService"
     }
   ],
   "schemes": [
@@ -19,47 +38,15 @@
     "application/json"
   ],
   "paths": {
-    "/v1/users": {
-      "get": {
-        "summary": "List users",
-        "description": "List all users",
-        "operationId": "IdentityService_ListUsers",
-        "responses": {
-          "200": {
-            "description": "(streaming responses)",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "result": {
-                  "$ref": "#/definitions/identity.v1.User"
-                },
-                "error": {
-                  "$ref": "#/definitions/google.rpc.Status"
-                }
-              },
-              "title": "Stream result of identity.v1.ListUsersResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/google.rpc.Status"
-            }
-          }
-        },
-        "tags": [
-          "Users"
-        ]
-      },
+    "/v1/auth/login": {
       "post": {
-        "summary": "Add user",
-        "description": "Add user",
-        "operationId": "IdentityService_AddUser",
+        "summary": "Login authenticates a user and returns tokens.",
+        "operationId": "IdentityPublicService_Login",
         "responses": {
           "200": {
-            "description": "",
+            "description": "A successful response.",
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/identity.v1.LoginResponse"
             }
           },
           "default": {
@@ -72,58 +59,28 @@
         "parameters": [
           {
             "name": "body",
+            "description": "Request to authenticate a user.",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/identity.v1.AddUserRequest"
+              "$ref": "#/definitions/identity.v1.LoginRequest"
             }
           }
         ],
         "tags": [
-          "Users"
+          "IdentityPublicService"
         ]
       }
     },
-    "/v1/users/{id}": {
-      "get": {
-        "summary": "Get user",
-        "description": "Get user by ID",
-        "operationId": "IdentityService_GetUser",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/identity.v1.User"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/google.rpc.Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Users"
-        ]
-      },
-      "delete": {
-        "summary": "Delete user",
-        "description": "Delete user by ID",
-        "operationId": "IdentityService_DeleteUser",
+    "/v1/auth/logout": {
+      "post": {
+        "summary": "Logout revokes a refresh token.",
+        "operationId": "IdentityPublicService_Logout",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity.v1.DeleteUserResponse"
+              "$ref": "#/definitions/identity.v1.LogoutResponse"
             }
           },
           "default": {
@@ -135,27 +92,686 @@
         },
         "parameters": [
           {
-            "name": "id",
+            "name": "body",
+            "description": "Request to revoke a refresh token.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/identity.v1.LogoutRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      }
+    },
+    "/v1/auth/refresh": {
+      "post": {
+        "summary": "Refresh rotates access/refresh tokens.",
+        "operationId": "IdentityPublicService_Refresh",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.RefreshResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Request to refresh tokens.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/identity.v1.RefreshRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      }
+    },
+    "/v1/auth/register": {
+      "post": {
+        "summary": "Register creates a new user account.",
+        "operationId": "IdentityPublicService_Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.RegisterResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Request to register a new user.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/identity.v1.RegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      }
+    },
+    "/v1/media/{mediaId}:download": {
+      "get": {
+        "summary": "GetDownload returns a presigned URL for downloading media.",
+        "operationId": "MediaService_GetDownload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/media.v1.GetDownloadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mediaId",
+            "description": "Media id to download.",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "Users"
+          "MediaService"
+        ]
+      }
+    },
+    "/v1/media/{mediaId}:finalize": {
+      "post": {
+        "summary": "FinalizeUpload validates uploaded media and persists metadata.",
+        "operationId": "MediaService_FinalizeUpload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/media.v1.FinalizeUploadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mediaId",
+            "description": "Media id to finalize.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/media.v1.MediaService.FinalizeUploadBody"
+            }
+          }
+        ],
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/v1/media:createUpload": {
+      "post": {
+        "summary": "CreateUpload returns a presigned URL for uploading media.",
+        "operationId": "MediaService_CreateUpload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/media.v1.CreateUploadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Request to initiate an upload.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/media.v1.CreateUploadRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/v1/pages/{pageId}": {
+      "delete": {
+        "summary": "DeletePage removes a page (soft delete in write model).",
+        "operationId": "WikiWriteService_DeletePage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.DeletePageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "description": "Page id to delete.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WikiWriteService"
+        ]
+      }
+    },
+    "/v1/pages/{pageId}/acl": {
+      "post": {
+        "summary": "SetPageAcl updates access control snapshot for a page.",
+        "operationId": "WikiWriteService_SetPageAcl",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.SetPageAclResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "description": "Page id to update.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.WikiWriteService.SetPageAclBody"
+            }
+          }
+        ],
+        "tags": [
+          "WikiWriteService"
+        ]
+      }
+    },
+    "/v1/pages/{pageId}/head": {
+      "get": {
+        "summary": "GetPageHead returns the head pointer for a page.",
+        "operationId": "WikiReadService_GetPageHead",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.GetPageHeadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "description": "Page id.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WikiReadService"
+        ]
+      }
+    },
+    "/v1/pages/{pageId}/revisions": {
+      "post": {
+        "summary": "CreateRevision creates a new revision for an existing page.",
+        "operationId": "WikiWriteService_CreateRevision",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.CreateRevisionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "description": "Target page id.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.WikiWriteService.CreateRevisionBody"
+            }
+          }
+        ],
+        "tags": [
+          "WikiWriteService"
+        ]
+      }
+    },
+    "/v1/pages/{pageId}/revisions/{revisionId}/snapshot": {
+      "get": {
+        "summary": "GetPageSnapshot returns an immutable snapshot for a revision.",
+        "operationId": "WikiReadService_GetPageSnapshot",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.GetPageSnapshotResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageId",
+            "description": "Page id.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "revisionId",
+            "description": "Revision id.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WikiReadService"
+        ]
+      }
+    },
+    "/v1/profile": {
+      "get": {
+        "summary": "GetProfile returns the current user profile.",
+        "operationId": "IdentityPublicService_GetProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.GetProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "tags": [
+          "IdentityPublicService"
+        ]
+      },
+      "patch": {
+        "summary": "UpdateProfile updates profile fields.",
+        "operationId": "IdentityPublicService_UpdateProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.UpdateProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Request to update profile fields.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/identity.v1.UpdateProfileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      }
+    },
+    "/v1/search": {
+      "get": {
+        "summary": "Search executes full-text search query.",
+        "operationId": "SearchService_Search",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/search.v1.SearchResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "query",
+            "description": "Query string.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "spaceId",
+            "description": "Optional space filter.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page.pageSize",
+            "description": "Maximum number of items to return.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page.pageToken",
+            "description": "Token for fetching the next page.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SearchService"
+        ]
+      }
+    },
+    "/v1/search:suggest": {
+      "get": {
+        "summary": "Suggest returns query suggestions for prefix.",
+        "operationId": "SearchService_Suggest",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/search.v1.SuggestResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "prefix",
+            "description": "Prefix input.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "spaceId",
+            "description": "Optional space filter.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SearchService"
+        ]
+      }
+    },
+    "/v1/spaces/{spaceId}/pages": {
+      "get": {
+        "summary": "ListPages lists pages within a space with pagination.",
+        "operationId": "WikiReadService_ListPages",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.ListPagesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "spaceId",
+            "description": "Space id.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "description": "Maximum number of items.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "description": "Pagination token.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WikiReadService"
+        ]
+      },
+      "post": {
+        "summary": "CreatePage creates a new page and initial revision.",
+        "operationId": "WikiWriteService_CreatePage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.CreatePageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "spaceId",
+            "description": "Space id where the page lives.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.WikiWriteService.CreatePageBody"
+            }
+          }
+        ],
+        "tags": [
+          "WikiWriteService"
+        ]
+      }
+    },
+    "/v1/spaces/{spaceId}/pages:bySlug/{slug}": {
+      "get": {
+        "summary": "GetPageBySlug resolves a page by slug within a space.",
+        "operationId": "WikiReadService_GetPageBySlug",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/wiki.v1.GetPageBySlugResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "spaceId",
+            "description": "Space id.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "slug",
+            "description": "Page slug.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WikiReadService"
         ]
       }
     }
   },
   "definitions": {
+    "common.v1.PageRequest": {
+      "type": "object",
+      "properties": {
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum number of items to return."
+        },
+        "pageToken": {
+          "type": "string",
+          "description": "Token for fetching the next page."
+        }
+      },
+      "description": "PageRequest carries pagination parameters for list operations."
+    },
+    "common.v1.PageResponse": {
+      "type": "object",
+      "properties": {
+        "nextPageToken": {
+          "type": "string",
+          "description": "Token for fetching the next page."
+        }
+      },
+      "description": "PageResponse carries pagination metadata for list responses."
+    },
     "google.protobuf.Any": {
       "type": "object",
       "properties": {
         "@type": {
-          "type": "string"
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
         }
       },
-      "additionalProperties": {}
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
     },
     "google.rpc.Status": {
       "type": "object",
@@ -176,15 +792,6 @@
         }
       }
     },
-    "identity.v1.AddUserRequest": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/identity.v1.User"
-        }
-      },
-      "title": "Add User request"
-    },
     "identity.v1.AddUserResponse": {
       "type": "object",
       "properties": {
@@ -192,40 +799,9 @@
           "type": "string"
         }
       },
-      "title": "Add User response"
+      "description": "Response for created admin user."
     },
-    "identity.v1.DeleteUserResponse": {
-      "type": "object",
-      "title": "Delete User response"
-    },
-    "identity.v1.GetUserResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/identity.v1.User"
-        }
-      },
-      "title": "Get User response"
-    },
-    "identity.v1.HealthResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "string"
-        }
-      },
-      "title": "HealthCheck response"
-    },
-    "identity.v1.ListUsersResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/identity.v1.User"
-        }
-      },
-      "title": "List Users response"
-    },
-    "identity.v1.User": {
+    "identity.v1.AdminUser": {
       "type": "object",
       "properties": {
         "id": {
@@ -238,7 +814,689 @@
           "type": "string"
         }
       },
-      "title": "User"
+      "description": "Admin user structure for CRUD operations."
+    },
+    "identity.v1.AuthorizeResponse": {
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        }
+      },
+      "description": "Authorization decision."
+    },
+    "identity.v1.DeleteUserResponse": {
+      "type": "object",
+      "description": "Response for delete operation."
+    },
+    "identity.v1.GetJWKSResponse": {
+      "type": "object",
+      "properties": {
+        "jwks": {
+          "$ref": "#/definitions/identity.v1.JWKSet"
+        }
+      },
+      "description": "Response containing JSON Web Key Set."
+    },
+    "identity.v1.GetProfileResponse": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "$ref": "#/definitions/identity.v1.UserProfile"
+        }
+      },
+      "description": "Profile response for the current user."
+    },
+    "identity.v1.GetUserBriefResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/identity.v1.UserBrief"
+        }
+      },
+      "description": "Response with minimal user info."
+    },
+    "identity.v1.GetUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/identity.v1.AdminUser"
+        }
+      },
+      "description": "Response with admin user data."
+    },
+    "identity.v1.HealthResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "description": "Health check response."
+    },
+    "identity.v1.JWK": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string"
+        },
+        "kty": {
+          "type": "string"
+        },
+        "use": {
+          "type": "string"
+        },
+        "alg": {
+          "type": "string"
+        },
+        "n": {
+          "type": "string"
+        },
+        "e": {
+          "type": "string"
+        },
+        "crv": {
+          "type": "string"
+        },
+        "x": {
+          "type": "string"
+        },
+        "y": {
+          "type": "string"
+        }
+      },
+      "description": "JSON Web Key entry for RSA or EC keys."
+    },
+    "identity.v1.JWKSet": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/identity.v1.JWK"
+          }
+        }
+      },
+      "description": "JSON Web Key Set."
+    },
+    "identity.v1.ListUsersResponse": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/identity.v1.AdminUser"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      },
+      "description": "Response with admin users and pagination info."
+    },
+    "identity.v1.LoginRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Login email."
+        },
+        "password": {
+          "type": "string",
+          "description": "User password."
+        }
+      },
+      "description": "Request to authenticate a user."
+    },
+    "identity.v1.LoginResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "description": "Short-lived access token (JWT)."
+        },
+        "refreshToken": {
+          "type": "string",
+          "description": "Refresh token used to rotate access tokens."
+        },
+        "expiresInSeconds": {
+          "type": "string",
+          "format": "int64",
+          "description": "Access token TTL in seconds."
+        },
+        "profile": {
+          "$ref": "#/definitions/identity.v1.UserProfile",
+          "description": "Profile snapshot."
+        }
+      },
+      "description": "Authentication response with tokens."
+    },
+    "identity.v1.LogoutRequest": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "description": "Refresh token to revoke."
+        }
+      },
+      "description": "Request to revoke a refresh token."
+    },
+    "identity.v1.LogoutResponse": {
+      "type": "object",
+      "description": "Logout response."
+    },
+    "identity.v1.RefreshRequest": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "description": "Previously issued refresh token."
+        }
+      },
+      "description": "Request to refresh tokens."
+    },
+    "identity.v1.RefreshResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "expiresInSeconds": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "description": "Response with refreshed tokens."
+    },
+    "identity.v1.RegisterRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email used as login."
+        },
+        "password": {
+          "type": "string",
+          "description": "Password in plain text (hashed server-side)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name."
+        }
+      },
+      "description": "Request to register a new user."
+    },
+    "identity.v1.RegisterResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Newly created user id."
+        },
+        "profile": {
+          "$ref": "#/definitions/identity.v1.UserProfile",
+          "description": "Created profile."
+        }
+      },
+      "description": "Result of successful registration."
+    },
+    "identity.v1.UpdateProfileRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Updated display name."
+        }
+      },
+      "description": "Request to update profile fields."
+    },
+    "identity.v1.UpdateProfileResponse": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "$ref": "#/definitions/identity.v1.UserProfile"
+        }
+      },
+      "description": "Profile update response."
+    },
+    "identity.v1.UserBrief": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Stable user identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the user."
+        }
+      },
+      "description": "Minimal user data without PII."
+    },
+    "identity.v1.UserProfile": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Stable user identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user."
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Assigned roles/scopes for authorization."
+        }
+      },
+      "description": "Public user profile returned by identity services."
+    },
+    "identity.v1.ValidateTokenResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Result of token validation."
+    },
+    "media.v1.CreateUploadRequest": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "description": "MIME type of the uploaded file."
+        },
+        "sizeBytes": {
+          "type": "string",
+          "format": "int64",
+          "description": "Size of the file in bytes."
+        },
+        "sha256": {
+          "type": "string",
+          "description": "SHA-256 checksum."
+        }
+      },
+      "description": "Request to initiate an upload."
+    },
+    "media.v1.CreateUploadResponse": {
+      "type": "object",
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "description": "Media id reserved for the upload."
+        },
+        "uploadUrl": {
+          "type": "string",
+          "description": "Presigned upload URL."
+        },
+        "requiredHeaders": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Additional required headers for the upload."
+        },
+        "expiresInSeconds": {
+          "type": "string",
+          "format": "int64",
+          "description": "Presign expiration in seconds."
+        }
+      },
+      "description": "Response with presigned upload URL."
+    },
+    "media.v1.FinalizeUploadResponse": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "$ref": "#/definitions/media.v1.MediaObject"
+        }
+      },
+      "description": "Response with stored media metadata."
+    },
+    "media.v1.GetDownloadResponse": {
+      "type": "object",
+      "properties": {
+        "downloadUrl": {
+          "type": "string",
+          "description": "Presigned download URL."
+        },
+        "expiresInSeconds": {
+          "type": "string",
+          "format": "int64",
+          "description": "Presign expiration in seconds."
+        }
+      },
+      "description": "Response with presigned download URL."
+    },
+    "media.v1.MediaObject": {
+      "type": "object",
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "description": "Media identifier."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owner user id."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "MIME content type."
+        },
+        "sizeBytes": {
+          "type": "string",
+          "format": "int64",
+          "description": "Object size in bytes."
+        },
+        "sha256": {
+          "type": "string",
+          "description": "SHA-256 checksum."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp."
+        }
+      },
+      "description": "MediaObject represents stored media metadata."
+    },
+    "media.v1.MediaService.FinalizeUploadBody": {
+      "type": "object",
+      "description": "Request to finalize an upload."
+    },
+    "search.v1.SearchHit": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "description": "Page id."
+        },
+        "spaceId": {
+          "type": "string",
+          "description": "Space id."
+        },
+        "title": {
+          "type": "string",
+          "description": "Page title."
+        },
+        "slug": {
+          "type": "string",
+          "description": "Page slug."
+        },
+        "snippet": {
+          "type": "string",
+          "description": "Highlighted snippet."
+        }
+      },
+      "description": "SearchHit describes a single search result."
+    },
+    "search.v1.SearchResponse": {
+      "type": "object",
+      "properties": {
+        "hits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/search.v1.SearchHit"
+          },
+          "description": "Matching documents."
+        },
+        "page": {
+          "$ref": "#/definitions/common.v1.PageResponse",
+          "description": "Pagination info."
+        }
+      },
+      "description": "SearchResponse returns hits and pagination metadata."
+    },
+    "search.v1.SuggestResponse": {
+      "type": "object",
+      "properties": {
+        "suggestions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Suggested tokens."
+        }
+      },
+      "description": "SuggestResponse returns suggestions for prefix."
+    },
+    "wiki.v1.CreatePageResponse": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "description": "Newly created page id."
+        },
+        "revisionId": {
+          "type": "string",
+          "description": "Newly created revision id."
+        }
+      },
+      "description": "Response for create page."
+    },
+    "wiki.v1.CreateRevisionResponse": {
+      "type": "object",
+      "properties": {
+        "revisionId": {
+          "type": "string",
+          "description": "New revision id."
+        }
+      },
+      "description": "Response with created revision id."
+    },
+    "wiki.v1.DeletePageResponse": {
+      "type": "object",
+      "description": "Response for delete page."
+    },
+    "wiki.v1.GetPageBySlugResponse": {
+      "type": "object",
+      "properties": {
+        "snapshot": {
+          "$ref": "#/definitions/wiki.v1.PageSnapshot",
+          "description": "Snapshot payload."
+        }
+      },
+      "description": "Response with snapshot resolved by slug."
+    },
+    "wiki.v1.GetPageHeadResponse": {
+      "type": "object",
+      "properties": {
+        "head": {
+          "$ref": "#/definitions/wiki.v1.PageHead",
+          "description": "Head pointer."
+        }
+      },
+      "description": "Response with head pointer."
+    },
+    "wiki.v1.GetPageSnapshotResponse": {
+      "type": "object",
+      "properties": {
+        "snapshot": {
+          "$ref": "#/definitions/wiki.v1.PageSnapshot",
+          "description": "Snapshot payload."
+        }
+      },
+      "description": "Response with a page snapshot."
+    },
+    "wiki.v1.ListPagesResponse": {
+      "type": "object",
+      "properties": {
+        "pages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/wiki.v1.PageHead"
+          },
+          "description": "Page head entries."
+        },
+        "nextPageToken": {
+          "type": "string",
+          "description": "Pagination token."
+        }
+      },
+      "description": "Response with page heads and pagination data."
+    },
+    "wiki.v1.PageHead": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "description": "Page id."
+        },
+        "headRevisionId": {
+          "type": "string",
+          "description": "Head revision id."
+        },
+        "spaceId": {
+          "type": "string",
+          "description": "Space id."
+        },
+        "slug": {
+          "type": "string",
+          "description": "Page slug."
+        },
+        "title": {
+          "type": "string",
+          "description": "Page title."
+        },
+        "perms": {
+          "$ref": "#/definitions/wiki.v1.PermissionSnapshot",
+          "description": "Snapshot of permissions."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        }
+      },
+      "description": "PageHead is a lightweight read-model pointer to the head revision."
+    },
+    "wiki.v1.PageSnapshot": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "description": "Page id."
+        },
+        "revisionId": {
+          "type": "string",
+          "description": "Revision id."
+        },
+        "spaceId": {
+          "type": "string",
+          "description": "Space id."
+        },
+        "slug": {
+          "type": "string",
+          "description": "Page slug."
+        },
+        "title": {
+          "type": "string",
+          "description": "Page title."
+        },
+        "html": {
+          "type": "string",
+          "description": "Rendered HTML."
+        },
+        "toc": {
+          "type": "string",
+          "description": "Table of contents (serialized)."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Short summary."
+        },
+        "wordCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Word count."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Snapshot creation timestamp."
+        }
+      },
+      "description": "PageSnapshot is an immutable rendered snapshot for fast reads."
+    },
+    "wiki.v1.PermissionSnapshot": {
+      "type": "object",
+      "properties": {
+        "allowedRoles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Roles allowed to view the page."
+        }
+      },
+      "description": "PermissionSnapshot keeps a minimal snapshot of access rights."
+    },
+    "wiki.v1.SetPageAclResponse": {
+      "type": "object",
+      "description": "Response for ACL update."
+    },
+    "wiki.v1.WikiWriteService.CreatePageBody": {
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string",
+          "description": "Slug for the new page."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title for the new page."
+        },
+        "contentMarkdown": {
+          "type": "string",
+          "description": "Markdown content."
+        }
+      },
+      "description": "Request to create a new page with the initial revision."
+    },
+    "wiki.v1.WikiWriteService.CreateRevisionBody": {
+      "type": "object",
+      "properties": {
+        "baseRevisionId": {
+          "type": "string",
+          "description": "Base revision id for concurrency control."
+        },
+        "contentMarkdown": {
+          "type": "string",
+          "description": "Markdown content."
+        }
+      },
+      "description": "Request to create a new revision for a page."
+    },
+    "wiki.v1.WikiWriteService.SetPageAclBody": {
+      "type": "object",
+      "properties": {
+        "perms": {
+          "$ref": "#/definitions/wiki.v1.PermissionSnapshot",
+          "description": "Updated permission snapshot."
+        }
+      },
+      "description": "Request to update ACL snapshot for a page."
     }
   },
   "externalDocs": {
