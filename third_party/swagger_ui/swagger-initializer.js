@@ -4,6 +4,20 @@ window.onload = function() {
   // the following lines will be replaced by docker/configurator, when it runs in a docker-container
   window.ui = SwaggerUIBundle({
     url: "/api.swagger.json",
+    requestInterceptor: (req) => {
+      try {
+        const url = new URL(req.url, window.location.origin);
+        if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+          if (url.protocol === "https:") {
+            url.protocol = "http:";
+            req.url = url.toString();
+          }
+        }
+      } catch (e) {
+        // ignore URL parsing errors
+      }
+      return req;
+    },
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
