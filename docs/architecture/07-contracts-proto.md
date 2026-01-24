@@ -17,8 +17,10 @@
 1. **Request context**
     - request_id, user_id, roles/permissions, tenant_id, idempotency_key
     - на wire: gRPC metadata (а не часть каждого сообщения)
+    - контракт описан в `common/v1/context.proto`
 2. **Единая модель ошибок**
     - `google.rpc.Status` + `details` (field violations, retry info)
+    - HTTP формат ошибок совместим с ErrorEnvelope: `{ "status": { code, message, details }, "request_id" }`
 3. **HTTP аннотации**
     - публичные RPC имеют `google.api.http` (grpc-gateway)
 4. **OpenAPI**

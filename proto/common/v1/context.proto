@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// Shared request context passed via gRPC metadata.
+// Canonical metadata keys:
+// - x-request-id
+// - x-user-id
+// - x-roles (comma-separated)
+// - x-tenant-id
+// - x-idempotency-key
+package common.v1;
+
+option go_package = "github.com/invenlore/proto/pkg/common/v1;commonv1";
+
+// RequestContext describes values propagated through gRPC metadata.
+// Note: it is not embedded into request/response messages.
+message RequestContext {
+  string request_id = 1;
+  string user_id = 2;
+  repeated string roles = 3;
+  string tenant_id = 4;
+  string idempotency_key = 5;
+}

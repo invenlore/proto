@@ -57,6 +57,11 @@ Alias в коде допустим и рекомендуется, если по�
 
 - Используем `google.rpc.Status` с `details` (см. `common/v1/errors.proto`).
 - Каждая ошибка должна включать `request_id`.
+- HTTP error response формат: `{ "status": { code, message, details }, "request_id" }`.
+- Рекомендуемые детали:
+  - `google.rpc.BadRequest` (валидация полей)
+  - `google.rpc.ErrorInfo` (доменные причины)
+  - `google.rpc.RetryInfo` (retryable ошибки)
 
 ## Пагинация
 

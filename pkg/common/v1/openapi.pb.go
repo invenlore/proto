@@ -27,8 +27,14 @@ var File_common_v1_openapi_proto protoreflect.FileDescriptor
 
 const file_common_v1_openapi_proto_rawDesc = "" +
 	"\n" +
-	"\x17common/v1/openapi.proto\x12\tcommon.v1\x1a.protoc-gen-openapiv2/options/annotations.protoB\xb0\x01\x92Az\x12&\n" +
-	"\x1cinvenlore.io OpenAPI Swagger2\x06latest*\x01\x02rM\n" +
+	"\x17common/v1/openapi.proto\x12\tcommon.v1\x1a.protoc-gen-openapiv2/options/annotations.protoB\xb5\x02\x92A\xfe\x01\x12&\n" +
+	"\x1cinvenlore.io OpenAPI Swagger2\x06latest*\x01\x02Zp\n" +
+	"n\n" +
+	"\n" +
+	"BearerAuth\x12`\b\x02\x12KJWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'\x1a\rAuthorization \x02b\x10\n" +
+	"\x0e\n" +
+	"\n" +
+	"BearerAuth\x12\x00rM\n" +
 	"'gRPC-gateway invenlore proto repository\x12\"https://github.com/invenlore/protoZ1github.com/invenlore/proto/pkg/common/v1;commonv1b\x06proto3"
 
 var file_common_v1_openapi_proto_goTypes = []any{}

@@ -4,6 +4,7 @@ PROTO_PKG_PATH := $(CURDIR)/pkg
 PROTO_FILES = \
 	common/v1/pagination.proto \
 	common/v1/openapi.proto \
+	common/v1/context.proto \
 	common/v1/errors.proto \
 	common/v1/utils.proto \
 	identity/v1/messages.proto \
