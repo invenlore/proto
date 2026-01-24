@@ -13,9 +13,6 @@
       "name": "IdentityInternalService"
     },
     {
-      "name": "IdentityAdminService"
-    },
-    {
       "name": "WikiReadService"
     },
     {
@@ -38,6 +35,136 @@
     "application/json"
   ],
   "paths": {
+    "/v1/admin/users": {
+      "get": {
+        "summary": "ListUsers returns users with pagination (admin API).",
+        "operationId": "IdentityPublicService_ListUsers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.ListUsersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      },
+      "post": {
+        "summary": "AddUser creates a new user from admin API.",
+        "operationId": "IdentityPublicService_AddUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.AddUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Request to create a new user from admin API.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/identity.v1.AddUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      }
+    },
+    "/v1/admin/users/{id}": {
+      "get": {
+        "summary": "GetUser returns a user by id (admin API).",
+        "operationId": "IdentityPublicService_GetUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.GetUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      },
+      "delete": {
+        "summary": "DeleteUser removes a user by id (admin API).",
+        "operationId": "IdentityPublicService_DeleteUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/identity.v1.DeleteUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "IdentityPublicService"
+        ]
+      }
+    },
     "/v1/auth/login": {
       "post": {
         "summary": "Login authenticates a user and returns tokens.",
@@ -762,6 +889,15 @@
       },
       "description": "PageResponse carries pagination metadata for list responses."
     },
+    "common.v1.ServiceHealthResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "description": "Health check response."
+    },
     "google.protobuf.Any": {
       "type": "object",
       "properties": {
@@ -792,6 +928,15 @@
         }
       }
     },
+    "identity.v1.AddUserRequest": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/identity.v1.User"
+        }
+      },
+      "description": "Request to create a new user from admin API."
+    },
     "identity.v1.AddUserResponse": {
       "type": "object",
       "properties": {
@@ -799,22 +944,7 @@
           "type": "string"
         }
       },
-      "description": "Response for created admin user."
-    },
-    "identity.v1.AdminUser": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "description": "Admin user structure for CRUD operations."
+      "description": "Response for created user."
     },
     "identity.v1.AuthorizeResponse": {
       "type": "object",
@@ -841,8 +971,8 @@
     "identity.v1.GetProfileResponse": {
       "type": "object",
       "properties": {
-        "profile": {
-          "$ref": "#/definitions/identity.v1.UserProfile"
+        "user": {
+          "$ref": "#/definitions/identity.v1.User"
         }
       },
       "description": "Profile response for the current user."
@@ -860,19 +990,10 @@
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/identity.v1.AdminUser"
+          "$ref": "#/definitions/identity.v1.User"
         }
       },
-      "description": "Response with admin user data."
-    },
-    "identity.v1.HealthResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "string"
-        }
-      },
-      "description": "Health check response."
+      "description": "Response with user data."
     },
     "identity.v1.JWK": {
       "type": "object",
@@ -927,14 +1048,14 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/identity.v1.AdminUser"
+            "$ref": "#/definitions/identity.v1.User"
           }
         },
         "nextPageToken": {
           "type": "string"
         }
       },
-      "description": "Response with admin users and pagination info."
+      "description": "Response with users and pagination info."
     },
     "identity.v1.LoginRequest": {
       "type": "object",
@@ -966,9 +1087,9 @@
           "format": "int64",
           "description": "Access token TTL in seconds."
         },
-        "profile": {
-          "$ref": "#/definitions/identity.v1.UserProfile",
-          "description": "Profile snapshot."
+        "user": {
+          "$ref": "#/definitions/identity.v1.User",
+          "description": "User snapshot."
         }
       },
       "description": "Authentication response with tokens."
@@ -1034,13 +1155,13 @@
     "identity.v1.RegisterResponse": {
       "type": "object",
       "properties": {
-        "userId": {
+        "id": {
           "type": "string",
           "description": "Newly created user id."
         },
-        "profile": {
-          "$ref": "#/definitions/identity.v1.UserProfile",
-          "description": "Created profile."
+        "user": {
+          "$ref": "#/definitions/identity.v1.User",
+          "description": "Created user record."
         }
       },
       "description": "Result of successful registration."
@@ -1058,30 +1179,16 @@
     "identity.v1.UpdateProfileResponse": {
       "type": "object",
       "properties": {
-        "profile": {
-          "$ref": "#/definitions/identity.v1.UserProfile"
+        "user": {
+          "$ref": "#/definitions/identity.v1.User"
         }
       },
       "description": "Profile update response."
     },
-    "identity.v1.UserBrief": {
+    "identity.v1.User": {
       "type": "object",
       "properties": {
-        "userId": {
-          "type": "string",
-          "description": "Stable user identifier."
-        },
-        "name": {
-          "type": "string",
-          "description": "Display name of the user."
-        }
-      },
-      "description": "Minimal user data without PII."
-    },
-    "identity.v1.UserProfile": {
-      "type": "object",
-      "properties": {
-        "userId": {
+        "id": {
           "type": "string",
           "description": "Stable user identifier."
         },
@@ -1099,14 +1206,38 @@
             "type": "string"
           },
           "description": "Assigned roles/scopes for authorization."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Created timestamp (unix seconds)."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Updated timestamp (unix seconds)."
         }
       },
-      "description": "Public user profile returned by identity services."
+      "description": "User represents a full user record used across public and admin APIs."
+    },
+    "identity.v1.UserBrief": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable user identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the user."
+        }
+      },
+      "description": "Minimal user data without PII."
     },
     "identity.v1.ValidateTokenResponse": {
       "type": "object",
       "properties": {
-        "userId": {
+        "id": {
           "type": "string"
         },
         "roles": {
@@ -1499,6 +1630,19 @@
       "description": "Request to update ACL snapshot for a page."
     }
   },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "description": "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
   "externalDocs": {
     "description": "gRPC-gateway invenlore proto repository",
     "url": "https://github.com/invenlore/proto"
