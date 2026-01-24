@@ -33,7 +33,11 @@ type User struct {
 	// Email address of the user.
 	Email string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	// Assigned roles/scopes for authorization.
-	Roles         []string `protobuf:"bytes,4,rep,name=roles,proto3" json:"roles,omitempty"`
+	Roles []string `protobuf:"bytes,4,rep,name=roles,proto3" json:"roles,omitempty"`
+	// Created timestamp (unix seconds).
+	CreatedAt int64 `protobuf:"varint,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// Updated timestamp (unix seconds).
+	UpdatedAt     int64 `protobuf:"varint,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -94,6 +98,20 @@ func (x *User) GetRoles() []string {
 		return x.Roles
 	}
 	return nil
+}
+
+func (x *User) GetCreatedAt() int64 {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return 0
+}
+
+func (x *User) GetUpdatedAt() int64 {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return 0
 }
 
 // Minimal user data without PII.
@@ -1663,12 +1681,16 @@ var File_identity_v1_messages_proto protoreflect.FileDescriptor
 
 const file_identity_v1_messages_proto_rawDesc = "" +
 	"\n" +
-	"\x1aidentity/v1/messages.proto\x12\videntity.v1\"V\n" +
+	"\x1aidentity/v1/messages.proto\x12\videntity.v1\"\x94\x01\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x14\n" +
-	"\x05roles\x18\x04 \x03(\tR\x05roles\"/\n" +
+	"\x05roles\x18\x04 \x03(\tR\x05roles\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\x03R\tupdatedAt\"/\n" +
 	"\tUserBrief\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"W\n" +

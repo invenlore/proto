@@ -15,6 +15,10 @@ message User {
 	string email = 3;
 	// Assigned roles/scopes for authorization.
 	repeated string roles = 4;
+	// Created timestamp (unix seconds).
+	int64 created_at = 5;
+	// Updated timestamp (unix seconds).
+	int64 updated_at = 6;
 }
 
 // Minimal user data without PII.
