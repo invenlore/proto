@@ -1,4 +1,0 @@
-flowchart LR
-  R[wiki-read] -->|head pointer short TTL| K1[(Redis: page_head)]
-  R -->|snapshot immutable| K2[(Redis: page:page_id:rev_id)]
-  R --> M[(Mongo read-model)]
