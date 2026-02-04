@@ -6,6 +6,8 @@ syntax = "proto3";
 // - x-user-id
 // - x-roles (comma-separated)
 // - x-tenant-id
+// - x-perms-global (comma-separated)
+// - x-scopes (comma-separated)
 // - x-idempotency-key
 package common.v1;
 
@@ -17,6 +19,8 @@ message RequestContext {
   string request_id = 1;
   string user_id = 2;
   repeated string roles = 3;
-  string tenant_id = 4;
-  string idempotency_key = 5;
+  repeated string perms_global = 4;
+  repeated string scopes = 5;
+  string tenant_id = 6;
+  string idempotency_key = 7;
 }

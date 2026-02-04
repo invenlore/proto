@@ -10,6 +10,8 @@
 // - x-user-id
 // - x-roles (comma-separated)
 // - x-tenant-id
+// - x-perms-global (comma-separated)
+// - x-scopes (comma-separated)
 // - x-idempotency-key
 
 package commonv1
@@ -36,8 +38,10 @@ type RequestContext struct {
 	RequestId      string                 `protobuf:"bytes,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Roles          []string               `protobuf:"bytes,3,rep,name=roles,proto3" json:"roles,omitempty"`
-	TenantId       string                 `protobuf:"bytes,4,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	IdempotencyKey string                 `protobuf:"bytes,5,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"`
+	PermsGlobal    []string               `protobuf:"bytes,4,rep,name=perms_global,json=permsGlobal,proto3" json:"perms_global,omitempty"`
+	Scopes         []string               `protobuf:"bytes,5,rep,name=scopes,proto3" json:"scopes,omitempty"`
+	TenantId       string                 `protobuf:"bytes,6,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	IdempotencyKey string                 `protobuf:"bytes,7,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -93,6 +97,20 @@ func (x *RequestContext) GetRoles() []string {
 	return nil
 }
 
+func (x *RequestContext) GetPermsGlobal() []string {
+	if x != nil {
+		return x.PermsGlobal
+	}
+	return nil
+}
+
+func (x *RequestContext) GetScopes() []string {
+	if x != nil {
+		return x.Scopes
+	}
+	return nil
+}
+
 func (x *RequestContext) GetTenantId() string {
 	if x != nil {
 		return x.TenantId
@@ -111,14 +129,16 @@ var File_common_v1_context_proto protoreflect.FileDescriptor
 
 const file_common_v1_context_proto_rawDesc = "" +
 	"\n" +
-	"\x17common/v1/context.proto\x12\tcommon.v1\"\xa4\x01\n" +
+	"\x17common/v1/context.proto\x12\tcommon.v1\"\xdf\x01\n" +
 	"\x0eRequestContext\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x01 \x01(\tR\trequestId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05roles\x18\x03 \x03(\tR\x05roles\x12\x1b\n" +
-	"\ttenant_id\x18\x04 \x01(\tR\btenantId\x12'\n" +
-	"\x0fidempotency_key\x18\x05 \x01(\tR\x0eidempotencyKeyB3Z1github.com/invenlore/proto/pkg/common/v1;commonv1b\x06proto3"
+	"\x05roles\x18\x03 \x03(\tR\x05roles\x12!\n" +
+	"\fperms_global\x18\x04 \x03(\tR\vpermsGlobal\x12\x16\n" +
+	"\x06scopes\x18\x05 \x03(\tR\x06scopes\x12\x1b\n" +
+	"\ttenant_id\x18\x06 \x01(\tR\btenantId\x12'\n" +
+	"\x0fidempotency_key\x18\a \x01(\tR\x0eidempotencyKeyB3Z1github.com/invenlore/proto/pkg/common/v1;commonv1b\x06proto3"
 
 var (
 	file_common_v1_context_proto_rawDescOnce sync.Once

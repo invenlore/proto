@@ -1065,6 +1065,9 @@ type ValidateTokenResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Roles         []string               `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles,omitempty"`
+	PermsGlobal   []string               `protobuf:"bytes,3,rep,name=perms_global,json=permsGlobal,proto3" json:"perms_global,omitempty"`
+	PermsProject  []string               `protobuf:"bytes,4,rep,name=perms_project,json=permsProject,proto3" json:"perms_project,omitempty"`
+	Scopes        []string               `protobuf:"bytes,5,rep,name=scopes,proto3" json:"scopes,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1109,6 +1112,27 @@ func (x *ValidateTokenResponse) GetId() string {
 func (x *ValidateTokenResponse) GetRoles() []string {
 	if x != nil {
 		return x.Roles
+	}
+	return nil
+}
+
+func (x *ValidateTokenResponse) GetPermsGlobal() []string {
+	if x != nil {
+		return x.PermsGlobal
+	}
+	return nil
+}
+
+func (x *ValidateTokenResponse) GetPermsProject() []string {
+	if x != nil {
+		return x.PermsProject
+	}
+	return nil
+}
+
+func (x *ValidateTokenResponse) GetScopes() []string {
+	if x != nil {
+		return x.Scopes
 	}
 	return nil
 }
@@ -1741,10 +1765,13 @@ const file_identity_v1_messages_proto_rawDesc = "" +
 	"\x01x\x18\b \x01(\tR\x01x\x12\f\n" +
 	"\x01y\x18\t \x01(\tR\x01y\",\n" +
 	"\x14ValidateTokenRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"=\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"\x9d\x01\n" +
 	"\x15ValidateTokenResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05roles\x18\x02 \x03(\tR\x05roles\"V\n" +
+	"\x05roles\x18\x02 \x03(\tR\x05roles\x12!\n" +
+	"\fperms_global\x18\x03 \x03(\tR\vpermsGlobal\x12#\n" +
+	"\rperms_project\x18\x04 \x03(\tR\fpermsProject\x12\x16\n" +
+	"\x06scopes\x18\x05 \x03(\tR\x06scopes\"V\n" +
 	"\x10AuthorizeRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06action\x18\x02 \x01(\tR\x06action\x12\x1a\n" +

@@ -143,6 +143,9 @@ message ValidateTokenRequest {
 message ValidateTokenResponse {
 	string id = 1;
 	repeated string roles = 2;
+	repeated string perms_global = 3;
+	repeated string perms_project = 4;
+	repeated string scopes = 5;
 }
 
 // Request for fine-grained authorization.
