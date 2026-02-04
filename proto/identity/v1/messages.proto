@@ -15,10 +15,16 @@ message User {
 	string email = 3;
 	// Assigned roles/scopes for authorization.
 	repeated string roles = 4;
+	// Global permissions (RBAC).
+	repeated string perms_global = 5;
+	// Project-scoped permissions (RBAC).
+	repeated string perms_project = 6;
+	// Allowed project scopes (RBAC).
+	repeated string scopes = 7;
 	// Created timestamp (unix seconds).
-	int64 created_at = 5;
+	int64 created_at = 8;
 	// Updated timestamp (unix seconds).
-	int64 updated_at = 6;
+	int64 updated_at = 9;
 }
 
 // Minimal user data without PII.

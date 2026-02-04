@@ -34,10 +34,16 @@ type User struct {
 	Email string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	// Assigned roles/scopes for authorization.
 	Roles []string `protobuf:"bytes,4,rep,name=roles,proto3" json:"roles,omitempty"`
+	// Global permissions (RBAC).
+	PermsGlobal []string `protobuf:"bytes,5,rep,name=perms_global,json=permsGlobal,proto3" json:"perms_global,omitempty"`
+	// Project-scoped permissions (RBAC).
+	PermsProject []string `protobuf:"bytes,6,rep,name=perms_project,json=permsProject,proto3" json:"perms_project,omitempty"`
+	// Allowed project scopes (RBAC).
+	Scopes []string `protobuf:"bytes,7,rep,name=scopes,proto3" json:"scopes,omitempty"`
 	// Created timestamp (unix seconds).
-	CreatedAt int64 `protobuf:"varint,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	CreatedAt int64 `protobuf:"varint,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	// Updated timestamp (unix seconds).
-	UpdatedAt     int64 `protobuf:"varint,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UpdatedAt     int64 `protobuf:"varint,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -96,6 +102,27 @@ func (x *User) GetEmail() string {
 func (x *User) GetRoles() []string {
 	if x != nil {
 		return x.Roles
+	}
+	return nil
+}
+
+func (x *User) GetPermsGlobal() []string {
+	if x != nil {
+		return x.PermsGlobal
+	}
+	return nil
+}
+
+func (x *User) GetPermsProject() []string {
+	if x != nil {
+		return x.PermsProject
+	}
+	return nil
+}
+
+func (x *User) GetScopes() []string {
+	if x != nil {
+		return x.Scopes
 	}
 	return nil
 }
@@ -1705,16 +1732,19 @@ var File_identity_v1_messages_proto protoreflect.FileDescriptor
 
 const file_identity_v1_messages_proto_rawDesc = "" +
 	"\n" +
-	"\x1aidentity/v1/messages.proto\x12\videntity.v1\"\x94\x01\n" +
+	"\x1aidentity/v1/messages.proto\x12\videntity.v1\"\xf4\x01\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x14\n" +
-	"\x05roles\x18\x04 \x03(\tR\x05roles\x12\x1d\n" +
+	"\x05roles\x18\x04 \x03(\tR\x05roles\x12!\n" +
+	"\fperms_global\x18\x05 \x03(\tR\vpermsGlobal\x12#\n" +
+	"\rperms_project\x18\x06 \x03(\tR\fpermsProject\x12\x16\n" +
+	"\x06scopes\x18\a \x03(\tR\x06scopes\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\x05 \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"created_at\x18\b \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x06 \x01(\x03R\tupdatedAt\"/\n" +
+	"updated_at\x18\t \x01(\x03R\tupdatedAt\"/\n" +
 	"\tUserBrief\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"W\n" +
