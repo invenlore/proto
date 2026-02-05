@@ -27,8 +27,11 @@ var File_identity_v1_public_service_proto protoreflect.FileDescriptor
 
 const file_identity_v1_public_service_proto_rawDesc = "" +
 	"\n" +
-	" identity/v1/public_service.proto\x12\videntity.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1aidentity/v1/messages.proto2\x87\b\n" +
-	"\x15IdentityPublicService\x12e\n" +
+	" identity/v1/public_service.proto\x12\videntity.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1aidentity/v1/messages.proto2\xfb\t\n" +
+	"\x15IdentityPublicService\x12r\n" +
+	"\n" +
+	"StartOAuth\x12\x1e.identity.v1.StartOAuthRequest\x1a\x1f.identity.v1.StartOAuthResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/v1/auth/oauth/github/start\x12~\n" +
+	"\rCompleteOAuth\x12!.identity.v1.CompleteOAuthRequest\x1a\".identity.v1.CompleteOAuthResponse\"&\x82\xd3\xe4\x93\x02 \x12\x1e/v1/auth/oauth/github/callback\x12e\n" +
 	"\bRegister\x12\x1c.identity.v1.RegisterRequest\x1a\x1d.identity.v1.RegisterResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/auth/register\x12Y\n" +
 	"\x05Login\x12\x19.identity.v1.LoginRequest\x1a\x1a.identity.v1.LoginResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/login\x12a\n" +
 	"\aRefresh\x12\x1b.identity.v1.RefreshRequest\x1a\x1c.identity.v1.RefreshResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/auth/refresh\x12]\n" +
@@ -43,50 +46,58 @@ const file_identity_v1_public_service_proto_rawDesc = "" +
 	"\tListUsers\x12\x1d.identity.v1.ListUsersRequest\x1a\x1e.identity.v1.ListUsersResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/v1/admin/usersB7Z5github.com/invenlore/proto/pkg/identity/v1;identityv1b\x06proto3"
 
 var file_identity_v1_public_service_proto_goTypes = []any{
-	(*RegisterRequest)(nil),       // 0: identity.v1.RegisterRequest
-	(*LoginRequest)(nil),          // 1: identity.v1.LoginRequest
-	(*RefreshRequest)(nil),        // 2: identity.v1.RefreshRequest
-	(*LogoutRequest)(nil),         // 3: identity.v1.LogoutRequest
-	(*GetProfileRequest)(nil),     // 4: identity.v1.GetProfileRequest
-	(*UpdateProfileRequest)(nil),  // 5: identity.v1.UpdateProfileRequest
-	(*AddUserRequest)(nil),        // 6: identity.v1.AddUserRequest
-	(*GetUserRequest)(nil),        // 7: identity.v1.GetUserRequest
-	(*DeleteUserRequest)(nil),     // 8: identity.v1.DeleteUserRequest
-	(*ListUsersRequest)(nil),      // 9: identity.v1.ListUsersRequest
-	(*RegisterResponse)(nil),      // 10: identity.v1.RegisterResponse
-	(*LoginResponse)(nil),         // 11: identity.v1.LoginResponse
-	(*RefreshResponse)(nil),       // 12: identity.v1.RefreshResponse
-	(*LogoutResponse)(nil),        // 13: identity.v1.LogoutResponse
-	(*GetProfileResponse)(nil),    // 14: identity.v1.GetProfileResponse
-	(*UpdateProfileResponse)(nil), // 15: identity.v1.UpdateProfileResponse
-	(*AddUserResponse)(nil),       // 16: identity.v1.AddUserResponse
-	(*GetUserResponse)(nil),       // 17: identity.v1.GetUserResponse
-	(*DeleteUserResponse)(nil),    // 18: identity.v1.DeleteUserResponse
-	(*ListUsersResponse)(nil),     // 19: identity.v1.ListUsersResponse
+	(*StartOAuthRequest)(nil),     // 0: identity.v1.StartOAuthRequest
+	(*CompleteOAuthRequest)(nil),  // 1: identity.v1.CompleteOAuthRequest
+	(*RegisterRequest)(nil),       // 2: identity.v1.RegisterRequest
+	(*LoginRequest)(nil),          // 3: identity.v1.LoginRequest
+	(*RefreshRequest)(nil),        // 4: identity.v1.RefreshRequest
+	(*LogoutRequest)(nil),         // 5: identity.v1.LogoutRequest
+	(*GetProfileRequest)(nil),     // 6: identity.v1.GetProfileRequest
+	(*UpdateProfileRequest)(nil),  // 7: identity.v1.UpdateProfileRequest
+	(*AddUserRequest)(nil),        // 8: identity.v1.AddUserRequest
+	(*GetUserRequest)(nil),        // 9: identity.v1.GetUserRequest
+	(*DeleteUserRequest)(nil),     // 10: identity.v1.DeleteUserRequest
+	(*ListUsersRequest)(nil),      // 11: identity.v1.ListUsersRequest
+	(*StartOAuthResponse)(nil),    // 12: identity.v1.StartOAuthResponse
+	(*CompleteOAuthResponse)(nil), // 13: identity.v1.CompleteOAuthResponse
+	(*RegisterResponse)(nil),      // 14: identity.v1.RegisterResponse
+	(*LoginResponse)(nil),         // 15: identity.v1.LoginResponse
+	(*RefreshResponse)(nil),       // 16: identity.v1.RefreshResponse
+	(*LogoutResponse)(nil),        // 17: identity.v1.LogoutResponse
+	(*GetProfileResponse)(nil),    // 18: identity.v1.GetProfileResponse
+	(*UpdateProfileResponse)(nil), // 19: identity.v1.UpdateProfileResponse
+	(*AddUserResponse)(nil),       // 20: identity.v1.AddUserResponse
+	(*GetUserResponse)(nil),       // 21: identity.v1.GetUserResponse
+	(*DeleteUserResponse)(nil),    // 22: identity.v1.DeleteUserResponse
+	(*ListUsersResponse)(nil),     // 23: identity.v1.ListUsersResponse
 }
 var file_identity_v1_public_service_proto_depIdxs = []int32{
-	0,  // 0: identity.v1.IdentityPublicService.Register:input_type -> identity.v1.RegisterRequest
-	1,  // 1: identity.v1.IdentityPublicService.Login:input_type -> identity.v1.LoginRequest
-	2,  // 2: identity.v1.IdentityPublicService.Refresh:input_type -> identity.v1.RefreshRequest
-	3,  // 3: identity.v1.IdentityPublicService.Logout:input_type -> identity.v1.LogoutRequest
-	4,  // 4: identity.v1.IdentityPublicService.GetProfile:input_type -> identity.v1.GetProfileRequest
-	5,  // 5: identity.v1.IdentityPublicService.UpdateProfile:input_type -> identity.v1.UpdateProfileRequest
-	6,  // 6: identity.v1.IdentityPublicService.AddUser:input_type -> identity.v1.AddUserRequest
-	7,  // 7: identity.v1.IdentityPublicService.GetUser:input_type -> identity.v1.GetUserRequest
-	8,  // 8: identity.v1.IdentityPublicService.DeleteUser:input_type -> identity.v1.DeleteUserRequest
-	9,  // 9: identity.v1.IdentityPublicService.ListUsers:input_type -> identity.v1.ListUsersRequest
-	10, // 10: identity.v1.IdentityPublicService.Register:output_type -> identity.v1.RegisterResponse
-	11, // 11: identity.v1.IdentityPublicService.Login:output_type -> identity.v1.LoginResponse
-	12, // 12: identity.v1.IdentityPublicService.Refresh:output_type -> identity.v1.RefreshResponse
-	13, // 13: identity.v1.IdentityPublicService.Logout:output_type -> identity.v1.LogoutResponse
-	14, // 14: identity.v1.IdentityPublicService.GetProfile:output_type -> identity.v1.GetProfileResponse
-	15, // 15: identity.v1.IdentityPublicService.UpdateProfile:output_type -> identity.v1.UpdateProfileResponse
-	16, // 16: identity.v1.IdentityPublicService.AddUser:output_type -> identity.v1.AddUserResponse
-	17, // 17: identity.v1.IdentityPublicService.GetUser:output_type -> identity.v1.GetUserResponse
-	18, // 18: identity.v1.IdentityPublicService.DeleteUser:output_type -> identity.v1.DeleteUserResponse
-	19, // 19: identity.v1.IdentityPublicService.ListUsers:output_type -> identity.v1.ListUsersResponse
-	10, // [10:20] is the sub-list for method output_type
-	0,  // [0:10] is the sub-list for method input_type
+	0,  // 0: identity.v1.IdentityPublicService.StartOAuth:input_type -> identity.v1.StartOAuthRequest
+	1,  // 1: identity.v1.IdentityPublicService.CompleteOAuth:input_type -> identity.v1.CompleteOAuthRequest
+	2,  // 2: identity.v1.IdentityPublicService.Register:input_type -> identity.v1.RegisterRequest
+	3,  // 3: identity.v1.IdentityPublicService.Login:input_type -> identity.v1.LoginRequest
+	4,  // 4: identity.v1.IdentityPublicService.Refresh:input_type -> identity.v1.RefreshRequest
+	5,  // 5: identity.v1.IdentityPublicService.Logout:input_type -> identity.v1.LogoutRequest
+	6,  // 6: identity.v1.IdentityPublicService.GetProfile:input_type -> identity.v1.GetProfileRequest
+	7,  // 7: identity.v1.IdentityPublicService.UpdateProfile:input_type -> identity.v1.UpdateProfileRequest
+	8,  // 8: identity.v1.IdentityPublicService.AddUser:input_type -> identity.v1.AddUserRequest
+	9,  // 9: identity.v1.IdentityPublicService.GetUser:input_type -> identity.v1.GetUserRequest
+	10, // 10: identity.v1.IdentityPublicService.DeleteUser:input_type -> identity.v1.DeleteUserRequest
+	11, // 11: identity.v1.IdentityPublicService.ListUsers:input_type -> identity.v1.ListUsersRequest
+	12, // 12: identity.v1.IdentityPublicService.StartOAuth:output_type -> identity.v1.StartOAuthResponse
+	13, // 13: identity.v1.IdentityPublicService.CompleteOAuth:output_type -> identity.v1.CompleteOAuthResponse
+	14, // 14: identity.v1.IdentityPublicService.Register:output_type -> identity.v1.RegisterResponse
+	15, // 15: identity.v1.IdentityPublicService.Login:output_type -> identity.v1.LoginResponse
+	16, // 16: identity.v1.IdentityPublicService.Refresh:output_type -> identity.v1.RefreshResponse
+	17, // 17: identity.v1.IdentityPublicService.Logout:output_type -> identity.v1.LogoutResponse
+	18, // 18: identity.v1.IdentityPublicService.GetProfile:output_type -> identity.v1.GetProfileResponse
+	19, // 19: identity.v1.IdentityPublicService.UpdateProfile:output_type -> identity.v1.UpdateProfileResponse
+	20, // 20: identity.v1.IdentityPublicService.AddUser:output_type -> identity.v1.AddUserResponse
+	21, // 21: identity.v1.IdentityPublicService.GetUser:output_type -> identity.v1.GetUserResponse
+	22, // 22: identity.v1.IdentityPublicService.DeleteUser:output_type -> identity.v1.DeleteUserResponse
+	23, // 23: identity.v1.IdentityPublicService.ListUsers:output_type -> identity.v1.ListUsersResponse
+	12, // [12:24] is the sub-list for method output_type
+	0,  // [0:12] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

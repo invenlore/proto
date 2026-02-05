@@ -21,6 +21,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	IdentityPublicService_StartOAuth_FullMethodName    = "/identity.v1.IdentityPublicService/StartOAuth"
+	IdentityPublicService_CompleteOAuth_FullMethodName = "/identity.v1.IdentityPublicService/CompleteOAuth"
 	IdentityPublicService_Register_FullMethodName      = "/identity.v1.IdentityPublicService/Register"
 	IdentityPublicService_Login_FullMethodName         = "/identity.v1.IdentityPublicService/Login"
 	IdentityPublicService_Refresh_FullMethodName       = "/identity.v1.IdentityPublicService/Refresh"
@@ -39,6 +41,10 @@ const (
 //
 // IdentityPublicService defines authentication, profile, and admin operations exposed over HTTP.
 type IdentityPublicServiceClient interface {
+	// Start OAuth authorization.
+	StartOAuth(ctx context.Context, in *StartOAuthRequest, opts ...grpc.CallOption) (*StartOAuthResponse, error)
+	// Complete OAuth flow and issue tokens.
+	CompleteOAuth(ctx context.Context, in *CompleteOAuthRequest, opts ...grpc.CallOption) (*CompleteOAuthResponse, error)
 	// Register creates a new user account.
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	// Login authenticates a user and returns tokens.
@@ -67,6 +73,26 @@ type identityPublicServiceClient struct {
 
 func NewIdentityPublicServiceClient(cc grpc.ClientConnInterface) IdentityPublicServiceClient {
 	return &identityPublicServiceClient{cc}
+}
+
+func (c *identityPublicServiceClient) StartOAuth(ctx context.Context, in *StartOAuthRequest, opts ...grpc.CallOption) (*StartOAuthResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartOAuthResponse)
+	err := c.cc.Invoke(ctx, IdentityPublicService_StartOAuth_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *identityPublicServiceClient) CompleteOAuth(ctx context.Context, in *CompleteOAuthRequest, opts ...grpc.CallOption) (*CompleteOAuthResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CompleteOAuthResponse)
+	err := c.cc.Invoke(ctx, IdentityPublicService_CompleteOAuth_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *identityPublicServiceClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
@@ -175,6 +201,10 @@ func (c *identityPublicServiceClient) ListUsers(ctx context.Context, in *ListUse
 //
 // IdentityPublicService defines authentication, profile, and admin operations exposed over HTTP.
 type IdentityPublicServiceServer interface {
+	// Start OAuth authorization.
+	StartOAuth(context.Context, *StartOAuthRequest) (*StartOAuthResponse, error)
+	// Complete OAuth flow and issue tokens.
+	CompleteOAuth(context.Context, *CompleteOAuthRequest) (*CompleteOAuthResponse, error)
 	// Register creates a new user account.
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	// Login authenticates a user and returns tokens.
@@ -205,6 +235,12 @@ type IdentityPublicServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedIdentityPublicServiceServer struct{}
 
+func (UnimplementedIdentityPublicServiceServer) StartOAuth(context.Context, *StartOAuthRequest) (*StartOAuthResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method StartOAuth not implemented")
+}
+func (UnimplementedIdentityPublicServiceServer) CompleteOAuth(context.Context, *CompleteOAuthRequest) (*CompleteOAuthResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CompleteOAuth not implemented")
+}
 func (UnimplementedIdentityPublicServiceServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Register not implemented")
 }
@@ -254,6 +290,42 @@ func RegisterIdentityPublicServiceServer(s grpc.ServiceRegistrar, srv IdentityPu
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&IdentityPublicService_ServiceDesc, srv)
+}
+
+func _IdentityPublicService_StartOAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartOAuthRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IdentityPublicServiceServer).StartOAuth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IdentityPublicService_StartOAuth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IdentityPublicServiceServer).StartOAuth(ctx, req.(*StartOAuthRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IdentityPublicService_CompleteOAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompleteOAuthRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IdentityPublicServiceServer).CompleteOAuth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IdentityPublicService_CompleteOAuth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IdentityPublicServiceServer).CompleteOAuth(ctx, req.(*CompleteOAuthRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _IdentityPublicService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -443,6 +515,14 @@ var IdentityPublicService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "identity.v1.IdentityPublicService",
 	HandlerType: (*IdentityPublicServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "StartOAuth",
+			Handler:    _IdentityPublicService_StartOAuth_Handler,
+		},
+		{
+			MethodName: "CompleteOAuth",
+			Handler:    _IdentityPublicService_CompleteOAuth_Handler,
+		},
 		{
 			MethodName: "Register",
 			Handler:    _IdentityPublicService_Register_Handler,

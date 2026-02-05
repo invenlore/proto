@@ -16,6 +16,19 @@ window.onload = function() {
       } catch (e) {
         // ignore URL parsing errors
       }
+
+      req.credentials = "include";
+      const csrf = document.cookie
+        .split(";")
+        .map((entry) => entry.trim())
+        .find((entry) => entry.startsWith("csrf_token="));
+      if (csrf) {
+        const value = csrf.split("=")[1];
+        if (value) {
+          req.headers = req.headers || {};
+          req.headers["X-CSRF-Token"] = value;
+        }
+      }
       return req;
     },
     dom_id: '#swagger-ui',

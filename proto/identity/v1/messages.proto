@@ -35,6 +35,52 @@ message UserBrief {
 	string name = 2;
 }
 
+// Supported OAuth providers.
+enum OAuthProvider {
+	OAUTH_PROVIDER_UNSPECIFIED = 0;
+	OAUTH_PROVIDER_GITHUB = 1;
+}
+
+// Starts OAuth authorization flow.
+message StartOAuthRequest {
+	// OAuth provider.
+	OAuthProvider provider = 1;
+	// Optional redirect destination (relative or absolute).
+	string redirect_uri = 2;
+}
+
+// OAuth start response with provider URL and state.
+message StartOAuthResponse {
+	// Provider authorization URL.
+	string authorization_url = 1;
+	// CSRF/PKCE state token.
+	string state = 2;
+}
+
+// Completes OAuth flow using provider code.
+message CompleteOAuthRequest {
+	// OAuth provider.
+	OAuthProvider provider = 1;
+	// Authorization code from provider.
+	string code = 2;
+	// State token from start step.
+	string state = 3;
+}
+
+// OAuth completion response with issued tokens.
+message CompleteOAuthResponse {
+	// Short-lived access token (JWT).
+	string access_token = 1;
+	// Refresh token for token rotation.
+	string refresh_token = 2;
+	// Access token TTL in seconds.
+	int64 expires_in_seconds = 3;
+	// User snapshot.
+	User user = 4;
+	// Redirect destination associated with the OAuth state.
+	string redirect_uri = 5;
+}
+
 // Request to register a new user.
 message RegisterRequest {
 	// Email used as login.

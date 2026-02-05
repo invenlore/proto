@@ -10,6 +10,20 @@ option go_package = "github.com/invenlore/proto/pkg/identity/v1;identityv1";
 
 // IdentityPublicService defines authentication, profile, and admin operations exposed over HTTP.
 service IdentityPublicService {
+	// Start OAuth authorization.
+	rpc StartOAuth(StartOAuthRequest) returns (StartOAuthResponse) {
+		option (google.api.http) = {
+			get: "/v1/auth/oauth/github/start"
+		};
+	}
+
+	// Complete OAuth flow and issue tokens.
+	rpc CompleteOAuth(CompleteOAuthRequest) returns (CompleteOAuthResponse) {
+		option (google.api.http) = {
+			get: "/v1/auth/oauth/github/callback"
+		};
+	}
+
 	// Register creates a new user account.
 	rpc Register(RegisterRequest) returns (RegisterResponse) {
 		option (google.api.http) = {
