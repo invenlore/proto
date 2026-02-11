@@ -1,6 +1,6 @@
 module github.com/invenlore/proto
 
-go 1.24.12
+go 1.24.13
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.7
